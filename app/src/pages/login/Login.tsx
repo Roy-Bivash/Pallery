@@ -18,7 +18,7 @@ export function Login() {
 
     return (
         <main className="min-h-screen min-w-screen flex justify-center items-center">
-            <form onSubmit={formSubmit} className="border p-5 rounded-md space-y-6 w-[20vw] shadow">
+            <form onSubmit={formSubmit} className="border p-5 rounded-md space-y-6 w-[20vw] shadow bg-white">
                 <h3 className="text-xl font-semibold">Login</h3>
                 <div className="space-y-3">
                     <div className="flex flex-col space-y-2">
