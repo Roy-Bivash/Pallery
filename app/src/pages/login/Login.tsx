@@ -27,7 +27,7 @@ export function Login() {
                     </div>
                     <div className="flex flex-col space-y-2">
                         <label htmlFor="password">Password</label>
-                        <input type="text" value={formInputs.password} name="password" placeholder="your password here ..." className="border rounded-md px-2 py-1 text-sm text-black/80" />
+                        <input type="password" onChange={updatLogineForm} value={formInputs.password} name="password" placeholder="your password here ..." className="border rounded-md px-2 py-1 text-sm text-black/80" />
                     </div>
                 </div>
                 <button type="submit" className="transition bg-slate-600 hover:bg-slate-800 px-6 py-1 text-white rounded-md">Login</button>
