@@ -1,11 +1,20 @@
-import { ImageCardProps } from "@/@types/Grid"
+import { ImageCardProps } from "@/@types/Grid";
+import { useDrawer } from "@/hooks/useDrawer";
+
 export function ImageCard({ id, title, url}: ImageCardProps){
+    const { openDrawer } = useDrawer();
+
+    function openTheImage(){
+        console.log("click open");
+        openDrawer(url, title);
+    }
     return(
-        <div className="transition group/card mb-4 break-inside-avoid rounded-md hover:bg-white hover:shadow-md">
+        <div onClick={openTheImage} className="transition cursor-pointer group/card mb-4 break-inside-avoid rounded-md hover:bg-white hover:shadow-md">
             <img 
                 src={url} 
                 alt={title}
                 className="transition rounded-md group-hover/card:contrast-[1.1]"
+                loading="lazy"
             />
             {title && (
                 <>

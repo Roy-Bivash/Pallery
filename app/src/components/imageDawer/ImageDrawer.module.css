@@ -1,0 +1,31 @@
+.openAnimation{
+    animation-duration: .3s;
+    /* animation-timing-function: ease-out; */
+    animation-name: slideOpen;
+}
+
+/* .closeAnimation{
+    animation-duration: .3s;
+    animation-name: slideClose;
+} */
+
+@keyframes slideOpen {
+    0% {
+        transform: translateY(100%);
+    }
+    /* 90%{
+        transform: translateY(-2%);
+    } */
+    100% {
+        transform: translateY(0%);
+    }
+}
+
+/* @keyframes slideClose {
+    from {
+        bottom: 0;
+    }
+    to {
+        bottom: -100vh;
+    }
+} */
