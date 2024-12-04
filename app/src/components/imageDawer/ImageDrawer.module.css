@@ -4,10 +4,10 @@
     animation-name: slideOpen;
 }
 
-/* .closeAnimation{
+.closeAnimation{
     animation-duration: .3s;
     animation-name: slideClose;
-} */
+}
 
 @keyframes slideOpen {
     0% {
@@ -21,11 +21,11 @@
     }
 }
 
-/* @keyframes slideClose {
-    from {
-        bottom: 0;
+@keyframes slideClose {
+    0% {
+        transform: translateY(0%);
     }
-    to {
-        bottom: -100vh;
+    100% {
+        transform: translateY(100%);
     }
-} */
+}
