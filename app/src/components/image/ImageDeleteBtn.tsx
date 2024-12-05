@@ -30,10 +30,10 @@ export function ImageDeleteBtn({img_id}: ImageDeleteBtnProps){
                         There is no returning back from it.
                     </DialogDescription>
                 </DialogHeader>
-                <DialogFooter>
-                    <Button variant="destructive" className="w-fit">Yes</Button>
+                <DialogFooter className="gap-2 sm:gap-0">
+                    <Button variant="destructive">Yes</Button>
                     <DialogClose asChild>
-                        <Button variant="outline" className="w-fit">NO</Button>
+                        <Button variant="outline">No</Button>
                     </DialogClose>
                 </DialogFooter>
             </DialogContent>
