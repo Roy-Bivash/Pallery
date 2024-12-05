@@ -16,6 +16,10 @@ interface ImageDeleteBtnProps{
 }
 
 export function ImageDeleteBtn({img_id}: ImageDeleteBtnProps){
+    async function deleteImage(){
+        console.log("delete : ", img_id);
+        // TODO
+    }
     return(
         <Dialog>
             <DialogTrigger asChild>
@@ -31,7 +35,7 @@ export function ImageDeleteBtn({img_id}: ImageDeleteBtnProps){
                     </DialogDescription>
                 </DialogHeader>
                 <DialogFooter className="gap-2 sm:gap-0">
-                    <Button variant="destructive">Yes</Button>
+                    <Button variant="destructive" onClick={() => deleteImage()}>Yes</Button>
                     <DialogClose asChild>
                         <Button variant="outline">No</Button>
                     </DialogClose>
