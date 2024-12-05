@@ -3,6 +3,8 @@ import { useState } from "react";
 import { ImageCardProps } from "@/@types/Grid";
 import { ArrowUpRight, Download, X } from "lucide-react";
 
+import { ImageDeleteBtn } from "./ImageDeleteBtn";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
@@ -43,15 +45,19 @@ export function ImageCard({ id, title, url}: ImageCardProps){
                         <DrawerTitle>{title || (<i>No title</i>)}</DrawerTitle>
                         <DrawerDescription className="pt-2">
                             {/* Description */}
-                            <span className="flex sm:flex-row flex-col gap-2">
+                        </DrawerDescription>
+                    </DrawerHeader>
+                    <div className="flex sm:flex-row flex-col items-center justify-center gap-2 pb-8">
+                        <section className="">
+                            <img src={url} alt={title} className="max-h-[70vh]" />
+                        </section>
+                        <section className="flex flex-col gap-2">
+                            <span className="flex flex-row gap-2">
                                 <Button variant="outline" className="w-fit">Open in a new tab <ArrowUpRight /></Button>
                                 <Button variant="ghost" className="w-fit">Dawnload <Download /></Button>
                             </span>
-                        </DrawerDescription>
-
-                    </DrawerHeader>
-                    <div className="flex justify-center pb-8">
-                        <img src={url} alt={title} className="max-h-[70vh]" />
+                            <ImageDeleteBtn img_id={id} />
+                        </section>
                     </div>
                 </DrawerContent>
             </Drawer>

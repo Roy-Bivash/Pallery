@@ -1,4 +1,4 @@
-import { ImageCard } from "./ImageCard";
+import { ImageCard } from "@/components/image/ImageCard";
 import { GridProps } from "@/@types/Grid";
 
 export function Grid({ cards }: GridProps){
