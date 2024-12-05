@@ -1,8 +1,12 @@
 import { useState } from "react"
 import { LoginFormInput } from "@/@types/Login";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 export function Login() {
-    const [formInputs, setFormInputs] = useState<LoginFormInput>({ login: "", password: "" });
+    const [formInputs, setFormInputs] = useState<LoginFormInput>({ email: "", password: "" });
 
     function updatLogineForm(e: React.ChangeEvent<HTMLInputElement>) {
         e.preventDefault();
@@ -18,20 +22,41 @@ export function Login() {
 
     return (
         <main className="min-h-screen min-w-screen flex justify-center items-center">
-            <form onSubmit={formSubmit} className="border p-5 rounded-md space-y-6 w-[20vw] shadow bg-white">
-                <h3 className="text-xl font-semibold">Login</h3>
-                <div className="space-y-3">
-                    <div className="flex flex-col space-y-2">
-                        <label htmlFor="login">Login</label>
-                        <input type="text" onChange={updatLogineForm} value={formInputs.login} name="login" placeholder="your login here ..." className="border rounded-md px-2 py-1 text-sm text-black/80" />
-                    </div>
-                    <div className="flex flex-col space-y-2">
-                        <label htmlFor="password">Password</label>
-                        <input type="password" onChange={updatLogineForm} value={formInputs.password} name="password" placeholder="your password here ..." className="border rounded-md px-2 py-1 text-sm text-black/80" />
-                    </div>
-                </div>
-                <button type="submit" className="transition bg-slate-600 hover:bg-slate-800 px-6 py-1 text-white rounded-md">Login</button>
-            </form>
+            
+            <Card className="mx-auto max-w-sm">
+                <CardHeader>
+                    <CardTitle className="text-2xl">Login</CardTitle>
+                    <CardDescription>
+                        Enter your email below to login to your account
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <form onSubmit={formSubmit} className="grid gap-4">
+                        <div className="grid gap-2">
+                            <Label htmlFor="email">Email</Label>
+                            <Input
+                                type="email"
+                                name="email"
+                                onChange={updatLogineForm} value={formInputs.email}
+                                placeholder="m@example.com"
+                                required
+                            />
+                        </div>
+                        <div className="grid gap-2">
+                            <Label htmlFor="password">Password</Label>
+                            <Input 
+                                name="password" 
+                                type="password" 
+                                onChange={updatLogineForm} 
+                                value={formInputs.password} 
+                                required 
+                            />
+                        </div>
+                        <Button type="submit" className="w-full">Login</Button>
+                        <Button variant="outline" className="w-full">Sign In</Button>
+                    </form>
+                </CardContent>
+            </Card>
         </main>
     )
 }

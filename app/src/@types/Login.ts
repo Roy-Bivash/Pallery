@@ -1,5 +1,5 @@
 interface LoginFormInput {
-    login:string,
+    email:string,
     password: string,
 }
 
