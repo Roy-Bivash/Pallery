@@ -1,5 +1,4 @@
 import { Grid } from "@/components/grid/Grid";
-import { ImageDrawer } from "@/components/imageDawer/ImageDrawer";
 
 const TEST_DATA = [
     {
@@ -74,7 +73,6 @@ export function Home(){
         <main className="container mx-auto">
             <h1 className="text-3xl">Home</h1>
             <Grid cards={TEST_DATA}/>
-            <ImageDrawer />
         </main>
     )
 }

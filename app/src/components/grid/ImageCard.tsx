@@ -1,29 +1,54 @@
 import { ImageCardProps } from "@/@types/Grid";
 import { useDrawer } from "@/hooks/useDrawer";
+import { Button } from "@/components/ui/button"
 
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+    Drawer,
+    DrawerClose,
+    DrawerContent,
+    DrawerDescription,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerTitle,
+  } from "@/components/ui/drawer"
+import { useState } from "react";
+  
 export function ImageCard({ id, title, url}: ImageCardProps){
-    const { openDrawer } = useDrawer();
+    const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
-    function openTheImage(){
-        console.log("click open");
-        openDrawer(url, title);
-    }
     return(
-        <div onClick={openTheImage} className="transition cursor-pointer group/card mb-4 break-inside-avoid rounded-md hover:bg-white hover:shadow-md">
-            <img 
-                src={url} 
-                alt={title}
-                className="transition rounded-md group-hover/card:contrast-[1.1]"
-                loading="lazy"
-            />
-            {title && (
-                <>
-                    {/* <span className="relative group/title w-full"> */}
-                        <h3 className="first-letter:capitalize text-md pt-2 pb-1 px-1 font-semibold truncate">{title}</h3>
-                        {/* <p className="hidden group-hover/title:block absolute left-0 right-0 top-12 bg-backgroundColor">{title}</p> */}
-                    {/* </span> */}
-                </>
-            ) }
-        </div>
+        <>
+            <Card onClick={() => setIsDrawerOpen(true)} className="break-inside-avoid my-4 cursor-pointer">
+                <CardContent className="p-0">
+                    <img 
+                        src={url} 
+                        alt={title}
+                        className="transition rounded-md group-hover/card:contrast-[1.1]"
+                        loading="lazy"
+                    />
+                </CardContent>
+                <CardFooter className="px-1 pt-2 pb-1">
+                    <p className="first-letter:capitalize truncate font-semibold">{title}</p>
+                </CardFooter>
+            </Card>
+            <Drawer open={isDrawerOpen} onClose={() => setIsDrawerOpen(false)}>
+                <DrawerContent>
+                    <DrawerHeader>
+                        <DrawerTitle>{title}</DrawerTitle>
+                        <DrawerDescription>This action cannot be undone.</DrawerDescription>
+                    </DrawerHeader>
+                    <div className="w-fit">
+                        <img src={url} alt={title} className="max-h-[70vh]" />
+                    </div>
+                    <DrawerFooter>
+                        <Button>Submit</Button>
+                        <DrawerClose asChild>
+                            <Button variant="outline">Cancel</Button>
+                        </DrawerClose>
+                    </DrawerFooter>
+                </DrawerContent>
+            </Drawer>
+        </>
     )
 }
