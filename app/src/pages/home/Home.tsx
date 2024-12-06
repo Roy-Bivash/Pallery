@@ -1,4 +1,5 @@
 import { Grid } from "@/components/grid/Grid";
+import { Header } from "@/components/header/Header";
 
 const TEST_DATA = [
     {
@@ -100,9 +101,11 @@ const TEST_DATA = [
 
 export function Home(){
     return(
-        <main className="container mx-auto">
-            <h1 className="text-3xl">Home</h1>
-            <Grid cards={TEST_DATA}/>
-        </main>
+        <>
+            <Header />
+            <main className="container mx-auto">
+                <Grid cards={TEST_DATA}/>
+            </main>
+        </>
     )
 }
