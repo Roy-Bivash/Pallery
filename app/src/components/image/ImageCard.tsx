@@ -26,7 +26,7 @@ export function ImageCard({ id, title, url}: ImageCardProps){
                     />
                 </CardContent>
                 {title.trim() && (
-                    <CardFooter className="px-1 pt-2 pb-1">
+                    <CardFooter className="px-4 sm:px-2 pt-2 pb-1">
                         <p className="first-letter:capitalize truncate font-semibold">{title}</p>
                     </CardFooter>
                 )}
@@ -50,8 +50,8 @@ export function ImageCard({ id, title, url}: ImageCardProps){
                         </DrawerHeader>
                     </VisuallyHidden.Root>
                     <ScrollArea>
-                        <div className="flex sm:flex-row flex-col justify-center gap-2 pb-8">
-                            <section>
+                        <div className="flex sm:flex-row flex-col justify-center gap-4 sm:gap-2 pb-8">
+                            <section className="flex justify-center">
                                 <img src={url} alt={title} className="max-h-[80vh]" />
                             </section>
                             <section className="px-2 sm:px-0 sm:max-w-[30vw] lg:max-w-[40vw] space-y-2">
