@@ -18,7 +18,7 @@ export function Navbar(){
     console.log(location.pathname)
 
     return(
-        <NavigationMenu>
+        <NavigationMenu className="">
             <NavigationMenuList>
                 <NavigationMenuItem>
                     <NavigationMenuLink href="#" className={navigationMenuTriggerStyle()} active>
