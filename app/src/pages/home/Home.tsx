@@ -106,7 +106,7 @@ export function Home(){
             {/* <div className="container mx-auto">
                 <Grid cards={TEST_DATA}/>
             </div> */}
-            <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-4 sm:px-0 px-4 my-5">
+            <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-4 px-4 my-5">
                 {TEST_DATA.map(card => (
                     <ImageCard 
                         key={card.id}
