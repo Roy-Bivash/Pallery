@@ -1,5 +1,6 @@
 import { Grid } from "@/components/grid/Grid";
 import { TestCard } from "@/components/image/TestCard";
+import { ImageCard } from "@/components/image/ImageCard";
 
 const TEST_DATA = [
     {
@@ -107,7 +108,7 @@ export function Home(){
             </div> */}
             <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-4 sm:px-0 px-4 my-5">
                 {TEST_DATA.map(card => (
-                    <TestCard 
+                    <ImageCard 
                         key={card.id}
                         {...card}
                     />

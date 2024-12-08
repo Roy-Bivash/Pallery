@@ -16,7 +16,7 @@ export function ImageCard({ id, title, url}: ImageCardProps){
 
     return(
         <>
-            <Card onClick={() => setIsDrawerOpen(true)} className="break-inside-avoid my-4 cursor-pointer">
+            <Card onClick={() => setIsDrawerOpen(true)} className="break-inside-avoid my-4 cursor-pointer overflow-hidden">
                 <CardContent className="p-0">
                     <img 
                         src={url} 
@@ -25,11 +25,11 @@ export function ImageCard({ id, title, url}: ImageCardProps){
                         loading="lazy"
                     />
                 </CardContent>
-                {title.trim() && (
+                {/* {title.trim() && (
                     <CardFooter className="px-4 sm:px-2 pt-2 pb-1">
                         <p className="first-letter:capitalize truncate font-semibold">{title}</p>
                     </CardFooter>
-                )}
+                )} */}
             </Card>
             <Drawer open={isDrawerOpen} onClose={() => setIsDrawerOpen(false)}>
                 <DrawerContent className="h-[95vh]">
