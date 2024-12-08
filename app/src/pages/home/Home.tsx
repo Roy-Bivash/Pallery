@@ -1,4 +1,5 @@
 import { Grid } from "@/components/grid/Grid";
+import { TestCard } from "@/components/image/TestCard";
 
 const TEST_DATA = [
     {
@@ -101,8 +102,16 @@ const TEST_DATA = [
 export function Home(){
     return(
         <>
-            <div className="container mx-auto">
+            {/* <div className="container mx-auto">
                 <Grid cards={TEST_DATA}/>
+            </div> */}
+            <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-4 sm:px-0 px-4 my-5">
+                {TEST_DATA.map(card => (
+                    <TestCard 
+                        key={card.id}
+                        {...card}
+                    />
+                ))}
             </div>
         </>
     )
