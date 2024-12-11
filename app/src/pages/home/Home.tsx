@@ -1,5 +1,3 @@
-import { Grid } from "@/components/grid/Grid";
-import { TestCard } from "@/components/image/TestCard";
 import { ImageCard } from "@/components/image/ImageCard";
 
 const TEST_DATA = [
