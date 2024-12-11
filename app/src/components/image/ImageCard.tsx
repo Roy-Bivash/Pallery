@@ -16,7 +16,7 @@ export function ImageCard({ id, title, url}: ImageCardProps){
 
     return(
         <>
-            <Card onClick={() => setIsDrawerOpen(true)} className="break-inside-avoid my-4 cursor-pointer overflow-hidden">
+            <Card onClick={() => setIsDrawerOpen(true)} className="group/card break-inside-avoid my-4 cursor-pointer overflow-hidden">
                 <CardContent className="p-0">
                     <img 
                         src={url} 
