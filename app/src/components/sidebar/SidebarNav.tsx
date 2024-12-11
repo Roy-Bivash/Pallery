@@ -1,21 +1,21 @@
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
-  } from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
   
 import { useTheme } from "../providers/theme-provider"; 
 import { Moon, SunMoon, Sun } from "lucide-react";
 
+const themeIcons = {
+    light: <Moon size={18} />,
+    dark: <Sun size={18} />,
+    system: <SunMoon size={18} />,
+};
+
 export function SidebarNav(){
     const { setTheme, theme } = useTheme();
-    const themesPossible = ["light", "dark", "system"];
+    const themesPossible: Array<"light" | "dark" | "system"> = ["light", "dark", "system"];
 
     function changeTheme(){
         const currentIndex = themesPossible.indexOf(theme);
         const nextIndex = (currentIndex + 1) % themesPossible.length;
-        // @ts-ignore
         setTheme(themesPossible[nextIndex]);
     }
 
@@ -24,24 +24,19 @@ export function SidebarNav(){
             <TooltipProvider delayDuration={100}>
                 <Tooltip>
                     <TooltipTrigger asChild>
-                        <button type="button" onClick={() => changeTheme()}>
-                            {theme == "light" && (
-                                <Moon size={18} />
-                            )}
-                            {theme == "dark" && (
-                                <Sun size={18} />
-                            )}
-                            {theme == "system" && (
-                                <SunMoon size={18} />
-                            )}
+                        <button 
+                            type="button" 
+                            onClick={changeTheme} 
+                            aria-label={`Switch theme to ${themesPossible[(themesPossible.indexOf(theme) + 1) % themesPossible.length]}`}
+                        >
+                            {themeIcons[theme]}
                         </button>
                     </TooltipTrigger>
                     <TooltipContent>
-                        <p>{theme}</p>
+                        <p>{themesPossible[(themesPossible.indexOf(theme) + 1) % themesPossible.length]}</p>
                     </TooltipContent>
                 </Tooltip>
             </TooltipProvider>
-
         </div>
     )
 }
