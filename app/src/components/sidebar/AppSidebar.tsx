@@ -1,4 +1,5 @@
 import { Calendar, Home, Star, Search, Folder } from "lucide-react"
+import { NavUser } from "./NavUser";
 
 import {
   Sidebar,
@@ -35,7 +36,13 @@ const items = [
     url: "#",
     icon: Folder,
   },
-]
+];
+
+const user = {
+  name: "Bivash",
+  email: "m@example.com",
+  avatar: "/avatars/shadcn.jpg",
+};
 
 export function AppSidebar() {
   return (
@@ -61,25 +68,11 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-        <SidebarGroup className="mt-auto" >
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <a href="#">
-                    {/* <item.icon /> */}
-                    <span>Deconnexion</span>
-                  </a>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
       </SidebarContent>
       
-      {/* <SidebarFooter>
-        <p>test</p>
-      </SidebarFooter> */}
+      <SidebarFooter>
+        <NavUser user={user} />
+      </SidebarFooter>
     </Sidebar>
   )
 }
