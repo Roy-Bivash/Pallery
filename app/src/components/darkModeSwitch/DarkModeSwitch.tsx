@@ -11,7 +11,7 @@ const themeIcons = {
 
 export function DarkModeSwitch(){
     const { setTheme, theme } = useTheme();
-    const themesPossible: Array<"light" | "dark" | "system"> = ["light", "dark", "system"];
+    const themesPossible: Array<"light" | "dark" | "system"> = ["light", "dark"];
 
     function changeTheme(){
         const currentIndex = themesPossible.indexOf(theme);
