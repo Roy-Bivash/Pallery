@@ -2,6 +2,7 @@ interface ImageCardData {
     id: number;
     url: string;
     title: string;
+    favorite: boolean,
 }
 
 interface GridProps {

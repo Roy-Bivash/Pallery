@@ -5,7 +5,8 @@ interface HomeProps {
 interface Image {
     id: number,
     url: string,
-    titel: string
+    title: string,
+    favorite: boolean,
 }
 
 type HomeParams = {

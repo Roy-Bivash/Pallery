@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import { ImageCardProps } from "@/@types/Grid";
-import { ArrowUpRight, Download, X } from "lucide-react";
+import { ArrowUpRight, Download, X, Heart } from "lucide-react";
 
 import { ImageDeleteBtn } from "./ImageDeleteBtn";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
@@ -10,8 +10,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
-export function ImageCard({ id, title, url}: ImageCardProps){
+export function ImageCard({ id, title, url, favorite}: ImageCardProps){
     const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
     return(
@@ -51,8 +52,27 @@ export function ImageCard({ id, title, url}: ImageCardProps){
                     </VisuallyHidden.Root>
                     <ScrollArea>
                         <div className="flex sm:flex-row flex-col justify-center gap-4 sm:gap-2 pb-8">
-                            <section className="flex justify-center">
+                            <section className="flex justify-center relative">
                                 <img src={url} alt={title} className="max-h-[80vh]" />
+                                <TooltipProvider delayDuration={100}>
+                                    <Tooltip >
+                                        <TooltipTrigger asChild>
+                                            <button 
+                                                type="button" 
+                                                className="absolute bottom-2 right-2" 
+                                            >
+                                                <Heart 
+                                                    size={35}
+                                                    fill={favorite ? "red" : "transparent"}
+                                                    color={favorite ? "red" : undefined}
+                                                />
+                                            </button>
+                                        </TooltipTrigger>
+                                        <TooltipContent>
+                                            <p>Like</p>
+                                        </TooltipContent>
+                                    </Tooltip>
+                                </TooltipProvider>
                             </section>
                             <section className="px-2 sm:px-0 sm:max-w-[30vw] lg:max-w-[40vw] space-y-2">
                                 <h4 className="text-xl cursor-text font-semibold">{title || (<i>No title</i>)}</h4>
