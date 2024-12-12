@@ -10,7 +10,8 @@ export function Router(){
         <BrowserRouter>
             <Routes>
                 <Route element={<SidebarLayout />}>
-                    <Route path="/" element={<Home />} />
+                    <Route path="/:folder?" element={<Home />} />
+                    <Route path="/favorite" element={<Home favorite={true} />} />
                 </Route>
                 <Route path="/login" element={<Login />} />
             </Routes>

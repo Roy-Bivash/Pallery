@@ -1,4 +1,7 @@
 import { ImageCard } from "@/components/image/ImageCard";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router";
+import { HomeProps, HomeParams, ImagesList } from "@/@types/Home";
 
 const TEST_DATA = [
     {
@@ -98,7 +101,49 @@ const TEST_DATA = [
     },
 ];
 
-export function Home(){
+async function GetAllImages(){
+    // TODO
+    return [];
+}
+async function GetFavoriteImages(){
+    // TODO
+    return [];
+}
+async function GetFolderImages(folderId: number){
+    // TODO
+    return [];
+}
+
+export function Home({ favorite } : HomeProps){
+    const { folder } = useParams<HomeParams>();
+    const [imagesList, setImagesList] = useState<ImagesList>([]);
+
+    useEffect(() => {
+        getImages();
+    }, []);
+
+    async function getImages(){
+        if(folder){
+            // If a folder is specified then get the images from that folder
+            console.log("Folder id : ", folder);
+            console.log("Display the images of a folder");
+
+            return await GetFolderImages(parseInt(folder));
+        }else if(favorite){
+            // If favorite is true then get the images marked as favorite
+            console.log("favorites : ", favorite);
+            console.log("Display the favorite images");
+
+            return await GetFavoriteImages();
+        }else{
+            // If no folder or favorite is specified then show all the images
+            console.log("favorites : ", favorite ?? false);
+            console.log("Display all the images");
+            
+            return await GetAllImages();
+        }
+    }
+
     return(
         <div className="container mx-auto">
             <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-4 px-4 my-5">
