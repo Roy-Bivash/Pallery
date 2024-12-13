@@ -1,4 +1,4 @@
-import { Calendar, Home, Star, Search, Folder } from "lucide-react"
+import { Calendar, Home, Star, Folder } from "lucide-react"
 import { NavUser } from "./NavUser";
 
 import {
