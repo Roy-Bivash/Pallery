@@ -1,4 +1,15 @@
+import { useEffect, useState } from "react";
+
+import { Folder } from "@/components/folder/Folder";
 import { FoldersList } from "@/@types/Folder";
+import { Search } from "lucide-react"
+import { Label } from "@/components/ui/label"
+import { Input } from "@/components/ui/input"; 
+// import { Toggle } from "@/components/ui/toggle";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
+import { List, LayoutGrid } from "lucide-react";
 
 const TEST_DATA: FoldersList = [
     {
@@ -18,16 +29,84 @@ const TEST_DATA: FoldersList = [
         name: "Folder 4"
     },
     {
-        id: 457,
+        id: 843,
+        name: "LoLorem ipsum dolor, sit amet consectetur adipisicing elit. Vero ab adipisci quos quia iste odio incidunt veniam amet non rerum. Laudantium, necessitatibus quis! Fuga cum ea, cupiditate vitae deleniti voluptas?rem"
+    },
+    {
+        id: 75,
         name: "Folder 5"
+    },
+    {
+        id: 923,
+        name: "Folder 6"
+    },
+    {
+        id: 198,
+        name: "Folder 7"
+    },
+    {
+        id: 24,
+        name: "Folder 8"
+    },
+    {
+        id: 45,
+        name: "LoLorem ipsum dolor, sit amet consectetur adipisicing elit. Vero ab adipisci quos quia iste odio incidunt veniam amet non rerum. Laudantium, necessitatibus quis! Fuga cum ea, cupiditate vitae deleniti voluptas?rem"
+    },
+    {
+        id: 176,
+        name: "LoLorem ipsum dolor, sit amet consectetur adipisicing elit. Vero ab adipisci quos quia iste odio incidunt veniam amet non rerum. Laudantium, necessitatibus quis! Fuga cum ea, cupiditate vitae deleniti voluptas?rem"
     },
 ];
 
 export function Folders(){
+    const [searchInput, setSearchInput] = useState<string>("");
+    const [folderLayout, setFolderLayout] = useState<"list" | "grid">("grid");
+
+    useEffect(() => {
+        console.log(folderLayout)
+    }, [folderLayout])
+
+    function SearchSubmit(e:React.FormEvent<HTMLFormElement>){
+        e.preventDefault();
+        console.log(searchInput);
+        // TODO
+    }
+
     return(
-        <div className="container mx-auto">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 px-4 my-5">
-                
+        <div className="container mx-auto px-4">
+            <div className="flex justify-end items-center gap-4 mt-3">
+                <Tabs defaultValue={folderLayout} onValueChange={value => setFolderLayout(value as "list" | "grid")}>
+                    <TabsList>
+                        <TabsTrigger value="list">
+                            <List size={18} />
+                        </TabsTrigger>
+                        <TabsTrigger value="grid">
+                            <LayoutGrid size={18} />
+                        </TabsTrigger>
+                    </TabsList>
+                </Tabs>
+                <form onSubmit={SearchSubmit} className="relative w-full sm:w-fit">
+                    <Label htmlFor="search" className="sr-only">
+                        Search
+                    </Label>
+                    <Input 
+                        id="search"
+                        name="search"
+                        onChange={e => setSearchInput(e.target.value)}
+                        placeholder="Search the images..."
+                        className="pl-9 rounded-full"
+                    />
+                    <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 select-none opacity-50" />
+                </form>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 my-5">
+                {TEST_DATA.map(item => (
+                    <Folder 
+                        key={item.id}
+                        {...item}
+                        layout={folderLayout}
+                    />
+                ))}
             </div>
         </div>
     )

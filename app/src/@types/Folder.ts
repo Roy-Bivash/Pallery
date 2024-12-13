@@ -4,7 +4,9 @@ interface FolderInterface {
 }
 
 type FoldersList = Array<FolderInterface>;
-interface FolderProps extends FolderInterface {}
+interface FolderProps extends FolderInterface {
+    layout: "list" | "grid"
+}
 
 export type {
     FolderInterface,
