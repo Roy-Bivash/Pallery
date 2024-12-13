@@ -1,5 +1,6 @@
 interface HomeProps {
-    favorite?: boolean
+    favorite?: boolean,
+    inFolder?:boolean,
 }
 
 interface Image {
@@ -10,7 +11,7 @@ interface Image {
 }
 
 type HomeParams = {
-    folder?: string;
+    id?: string;
 };
 
 type ImagesList = Array<Image>;

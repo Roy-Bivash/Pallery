@@ -157,8 +157,8 @@ async function GetFolderImages(folderId: number){
     return [];
 }
 
-export function Home({ favorite } : HomeProps){
-    const { folder } = useParams<HomeParams>();
+export function Home({ favorite = false, inFolder = false } : HomeProps){
+    const { id : folderId } = useParams<HomeParams>();
     const [imagesList, setImagesList] = useState<ImagesList>([]);
 
     useEffect(() => {
@@ -166,24 +166,30 @@ export function Home({ favorite } : HomeProps){
     }, []);
 
     async function getImages(){
-        if(folder){
+        if(inFolder && folderId){
             // If a folder is specified then get the images from that folder
-            console.log("Folder id : ", folder);
+            console.log("Folder id : ", folderId);
             console.log("Display the images of a folder");
 
-            return await GetFolderImages(parseInt(folder));
+            const data = await GetFolderImages(parseInt(folderId));
+            setImagesList(data);
+            return;
         }else if(favorite){
             // If favorite is true then get the images marked as favorite
             console.log("favorites : ", favorite);
             console.log("Display the favorite images");
 
-            return await GetFavoriteImages();
+            const data =  await GetFavoriteImages();
+            setImagesList(data);
+            return;
         }else{
             // If no folder or favorite is specified then show all the images
             console.log("favorites : ", favorite ?? false);
             console.log("Display all the images");
             
-            return await GetAllImages();
+            const data =  await GetAllImages();
+            setImagesList(data);
+            return;
         }
     }
 

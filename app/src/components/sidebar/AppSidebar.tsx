@@ -23,7 +23,7 @@ const items = [
   },
   {
     title: "Favorite",
-    url: "#",
+    url: "/favorite",
     icon: Star,
   },
   {
@@ -33,7 +33,7 @@ const items = [
   },
   {
     title: "Folders",
-    url: "#",
+    url: "/folders",
     icon: Folder,
   },
 ];
