@@ -1,12 +1,16 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-  
+
+import { useNavigate } from "react-router";
+
 import { FolderProps } from "@/@types/Folder";
 import { Folder as FolderIcon } from "lucide-react";
 
 export function Folder({ id, name, layout } : FolderProps){
+    const navigate = useNavigate();
+
     if(layout == "grid"){
         return(
-            <Card className="transition cursor-pointer hover:bg-slate-300/20">
+            <Card onClick={() => navigate(`/folder/${id}`)} className="transition cursor-pointer hover:bg-slate-300/20">
                 <CardHeader>
                     <CardTitle className="sr-only">{name}</CardTitle>
                     <FolderIcon 
@@ -21,7 +25,7 @@ export function Folder({ id, name, layout } : FolderProps){
     }
     if(layout == "list"){
         return(
-            <div className="w-full flex gap-2 border-b pb-2">
+            <div onClick={() => navigate(`/folder/${id}`)} className="w-full flex gap-2 border-b pb-2">
                 <FolderIcon 
                     size={20}
                 />

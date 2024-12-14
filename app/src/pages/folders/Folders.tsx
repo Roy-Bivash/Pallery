@@ -5,9 +5,8 @@ import { FoldersList } from "@/@types/Folder";
 import { Search } from "lucide-react"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"; 
-// import { Toggle } from "@/components/ui/toggle";
-import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useFoldersLayout } from "@/hooks/use-folders-layout";
 
 import { List, LayoutGrid } from "lucide-react";
 
@@ -60,11 +59,7 @@ const TEST_DATA: FoldersList = [
 
 export function Folders(){
     const [searchInput, setSearchInput] = useState<string>("");
-    const [folderLayout, setFolderLayout] = useState<"list" | "grid">("grid");
-
-    useEffect(() => {
-        console.log(folderLayout)
-    }, [folderLayout])
+    const { folderLayout, setFolderLayout } = useFoldersLayout();
 
     function SearchSubmit(e:React.FormEvent<HTMLFormElement>){
         e.preventDefault();
