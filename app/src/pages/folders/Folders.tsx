@@ -70,7 +70,7 @@ export function Folders(){
     return(
         <div className="container mx-auto px-4">
             <div className="flex justify-end items-center gap-4 mt-3">
-                <Tabs defaultValue={folderLayout} onValueChange={value => setFolderLayout(value as "list" | "grid")}>
+                <Tabs value={folderLayout} onValueChange={value => setFolderLayout(value as "list" | "grid")}>
                     <TabsList>
                         <TabsTrigger value="list">
                             <List size={18} />
@@ -94,7 +94,7 @@ export function Folders(){
                     <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 select-none opacity-50" />
                 </form>
             </div>
-            <div className={`grid grid-cols-1 gap-4 my-5 ${(folderLayout === "grid") ? "sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" : ""}`}>
+            <div className={`group/list grid grid-cols-1 my-5 ${(folderLayout === "grid") ? "sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" : ""}`}>
                 {TEST_DATA.map(item => (
                     <Folder 
                         key={item.id}

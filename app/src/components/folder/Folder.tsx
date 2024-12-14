@@ -25,11 +25,15 @@ export function Folder({ id, name, layout } : FolderProps){
     }
     if(layout == "list"){
         return(
-            <div onClick={() => navigate(`/folder/${id}`)} className="w-full flex gap-2 border-b pb-2">
+            <div onClick={() => navigate(`/folder/${id}`)} className="transition group/folder w-full flex items-top py-4 cursor-pointer hover:bg-slate-300/20 hover:!opacity-100 group-hover/list:opacity-80">
                 <FolderIcon 
                     size={20}
+                    className="min-w-14 group-hover/folder:text-primary"
                 />
-                <p className="truncate">{name}</p>
+                <p className="transition truncate group-hover/folder:overflow-visible group-hover/folder:whitespace-normal group-hover/folder:text-ellipsis">
+                    {name}
+                </p>
+
             </div>
         )
     }
