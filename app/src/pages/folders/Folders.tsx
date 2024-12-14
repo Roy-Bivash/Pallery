@@ -60,11 +60,31 @@ const TEST_DATA: FoldersList = [
 export function Folders(){
     const [searchInput, setSearchInput] = useState<string>("");
     const { folderLayout, setFolderLayout } = useFoldersLayout();
+    const [filteredFolders, setFilteredFolders] = useState<FoldersList>([]);
 
-    function SearchSubmit(e:React.FormEvent<HTMLFormElement>){
-        e.preventDefault();
-        console.log(searchInput);
-        // TODO
+    useEffect(() => {
+        // Load the test DATA :
+        setFilteredFolders(TEST_DATA);
+    }, []);
+
+    useEffect(() => {
+        SearchSubmit()
+    }, [searchInput]);
+
+    function SearchSubmit(e?:React.FormEvent<HTMLFormElement>){
+        e?.preventDefault();
+        if (searchInput === "") {
+            setFilteredFolders(TEST_DATA); // TODO : Change later
+            return;
+        }
+
+        const lowercasedValue = searchInput.toLowerCase();
+
+        const filteredData = TEST_DATA.filter((el) => {
+            // Check if the folders name matches the input value
+            return el.name.toLowerCase().includes(lowercasedValue);
+        });
+        setFilteredFolders(filteredData);
     }
 
     return(
@@ -95,7 +115,7 @@ export function Folders(){
                 </form>
             </div>
             <div className={`group/list grid grid-cols-1 my-5 ${(folderLayout === "grid") ? "sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" : ""}`}>
-                {TEST_DATA.map(item => (
+                {filteredFolders.map(item => (
                     <Folder 
                         key={item.id}
                         {...item}
