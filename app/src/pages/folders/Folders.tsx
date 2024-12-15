@@ -73,7 +73,7 @@ export function Folders(){
 
     function SearchSubmit(e?:React.FormEvent<HTMLFormElement>){
         e?.preventDefault();
-        if (searchInput === "") {
+        if (searchInput.trim() === "") {
             setFilteredFolders(TEST_DATA); // TODO : Change later
             return;
         }
