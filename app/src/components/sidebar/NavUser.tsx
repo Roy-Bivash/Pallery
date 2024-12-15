@@ -28,6 +28,8 @@ import {
     useSidebar,
 } from "@/components/ui/sidebar";
 
+import { NavLink } from "react-router";
+
 export function NavUser({
     user,
 }: {
@@ -86,9 +88,11 @@ export function NavUser({
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator />
                         <DropdownMenuGroup>
-                            <DropdownMenuItem>
-                                <BadgeCheck />
-                                Account
+                            <DropdownMenuItem asChild>
+                                <NavLink to="/account" className="cursor-pointer">
+                                    <BadgeCheck />
+                                    Account
+                                </NavLink>
                             </DropdownMenuItem>
                             <DropdownMenuItem disabled>
                                 <CreditCard />
