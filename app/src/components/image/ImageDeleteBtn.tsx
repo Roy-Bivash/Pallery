@@ -9,7 +9,7 @@ import {
     DialogTrigger,
     DialogFooter,
     DialogClose
-  } from "@/components/ui/dialog"
+  } from "@/components/ui/dialog";
   
 interface ImageDeleteBtnProps{
     img_id: Number
@@ -42,6 +42,5 @@ export function ImageDeleteBtn({img_id}: ImageDeleteBtnProps){
                 </DialogFooter>
             </DialogContent>
         </Dialog>
-
     )
 }
