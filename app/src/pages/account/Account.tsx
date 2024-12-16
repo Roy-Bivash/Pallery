@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Copy } from "lucide-react";
+import { Check, Copy } from "lucide-react";
 import { NavLink } from "react-router";
 
 import { TrendingUp } from "lucide-react";
@@ -12,6 +12,7 @@ import {
     ChartTooltip,
     ChartTooltipContent,
   } from "@/components/ui/chart";
+import { toast } from "sonner";
 
 
 
@@ -37,7 +38,10 @@ export function Account(){
 
     function copy(value:string){
         // TODO
-        alert("TODO")
+        toast("Copy successful", {
+            description: "Yourpseudo has been copied",
+        })
+
     }
 
     return(
@@ -58,6 +62,11 @@ export function Account(){
                             onClick={() => copy(TEST_DATA.pseudo)}
                             className="mt-1 opacity-80 hover:opacity-100 cursor-pointer" 
                         />
+                        {/* <Check 
+                            size={12} 
+                            onClick={() => copy(TEST_DATA.pseudo)}
+                            className="mt-1 opacity-80 hover:opacity-100 cursor-pointer" 
+                        /> */}
                     </p>
                 </div>
             </div>
