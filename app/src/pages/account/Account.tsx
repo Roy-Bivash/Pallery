@@ -5,6 +5,7 @@ import { Copy } from "lucide-react";
 import { NavLink } from "react-router";
 import { toast } from "sonner";
 import { DataChart } from "./DataChart";
+import { Badge } from "@/components/ui/badge";
 
   
 const TEST_DATA = {
@@ -42,6 +43,11 @@ export function Account(){
                             className="mt-1 opacity-80 hover:opacity-100 cursor-pointer" 
                         />
                     </p>
+                    <div className="mt-4 space-x-2 space-y-2">
+                        <Badge variant="secondary">Creative</Badge>
+                        <Badge variant="secondary">Cartoon</Badge>
+                        <Badge variant="secondary">Video Game</Badge>
+                    </div>
                 </div>
             </div>
             <p className="mt-4 sm:w-2/3 opacity-90">{TEST_DATA.description}</p>
@@ -105,9 +111,9 @@ export function Account(){
                         <CardDescription>
                             <DataChart percentage={60} />
                             <p>
-                                The Free plan gives you 1 Gb of storage
+                                The Free plan gives you 100 images of storage
                                 <br />
-                                Used : 0.6 Gb
+                                Used : 60 images
                             </p>
                         </CardDescription>
                     </CardHeader>
