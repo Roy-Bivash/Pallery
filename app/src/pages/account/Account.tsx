@@ -17,11 +17,10 @@ export function Account(){
     
 
     function copy(value:string){
-        // TODO
+        navigator.clipboard.writeText(value);
         toast("Copy successful", {
             description: "Your pseudo has been copied",
         })
-
     }
 
     return(
