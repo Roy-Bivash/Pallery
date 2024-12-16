@@ -43,7 +43,7 @@ export function Account(){
                             className="mt-1 opacity-80 hover:opacity-100 cursor-pointer" 
                         />
                     </p>
-                    <div className="mt-4 space-x-2 space-y-2">
+                    <div className="space-x-2 space-y-2">
                         <Badge variant="secondary">Creative</Badge>
                         <Badge variant="secondary">Cartoon</Badge>
                         <Badge variant="secondary">Video Game</Badge>
