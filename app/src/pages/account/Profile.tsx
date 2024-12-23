@@ -4,17 +4,33 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { X } from "lucide-react";
+import { toast } from "sonner";
 
 const TEST_DATA = {
     name: "Bivash ROY",
     pseudo: "@bivash_roy",
+    tags: [
+        {
+            id:1,
+            name:"Creative"
+        },
+        {
+            id:2,
+            name:"Cartoon"
+        },
+        {
+            id:3,
+            name:"Video Game"
+        }
+    ],
     description: "User bio here : Lorem ipsum dolor sit, amet consectetur adipisicing elit. Placeat assumenda odio fugit iusto dicta omnis reprehenderit ab laudantium ex! Et animi possimus quaerat nam corporis minima harum assumenda laborum nobis?"
 }
 
 export function Profile(){
     const [profileForm, setProfileForm] = useState(TEST_DATA);
+    const inputRef = useRef<HTMLInputElement>(null);
 
     function updateForm(e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) {
         e.preventDefault();
@@ -25,6 +41,29 @@ export function Profile(){
         console.log(profileForm);
     }
 
+    function removeTag(id: number){
+        const newTagsList = profileForm.tags.filter((el) => el.id != id);
+        setProfileForm({...profileForm, tags:newTagsList});
+    }
+
+    function addNewTag(e:React.FormEvent<HTMLFormElement>){
+        e.preventDefault();
+        if (inputRef.current && inputRef.current?.value.trim() != "") {
+            console.log("Input value:", inputRef.current.value);
+
+            const newTagsList = profileForm.tags;
+            newTagsList.push({
+                id: Math.random(), // TODO change the id generation (don't use the Math.random)
+                name:inputRef.current.value
+            });
+            setProfileForm({...profileForm, tags:newTagsList});
+            inputRef.current.value = "";
+            return;
+        }
+        toast("Error", {
+            description: "The name field is empty"
+        })
+    }
     return(
         <div className="container mx-auto p-4">
             <h1 className="text-2xl font-bold mb-6">Edit you profile</h1>
@@ -46,8 +85,8 @@ export function Profile(){
                         id="user_name" 
                         placeholder="user name" 
                         value={profileForm.name} 
-                        name="name"
                         onChange={updateForm}
+                        required
                     />
                 </div>
                 <div className="grid w-full max-w-sm items-center gap-1.5">
@@ -76,19 +115,27 @@ export function Profile(){
             <div className="mt-5">
                 <Label htmlFor="user_name">Profile Tags</Label>
                 <div className="space-x-2 space-y-2">
-                    <Badge variant="secondary">
-                        Creative
-                        <X size={15} />
-                    </Badge>
-                    <Badge variant="secondary">
-                        Cartoon
-                        <X size={15} />
-                    </Badge>
-                    <Badge variant="secondary">
-                        Video Game
-                        <X size={15} />
-                    </Badge>
-                    <Badge variant="secondary" className="hover:border-black cursor-pointer">Add</Badge>
+                    <form onSubmit={addNewTag} className="my-1 flex items-center">
+                        <Input
+                            type="text"
+                            placeholder="Name"
+                            name="name"
+                            className="rounded-r-none w-fit"
+                            ref={inputRef}
+                            maxLength={30}
+                        />
+                        <Button type="submit" variant="outline" className="rounded-l-none">Add</Button>
+                    </form>
+                    {profileForm.tags.map(el => (
+                        <Badge variant="secondary" key={el.id}>
+                            {el.name}
+                            <X 
+                                size={15}
+                                className="cursor-pointer hover:text-red-700"
+                                onClick={() => removeTag(el.id)}
+                            />
+                        </Badge>
+                    ))}
                 </div>
             </div>
             <div className="space-x-2 mt-8">
