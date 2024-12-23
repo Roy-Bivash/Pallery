@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { useRef, useState } from "react";
 import { X } from "lucide-react";
 import { toast } from "sonner";
+import { Link } from "react-router";
 
 const TEST_DATA = {
     name: "Bivash ROY",
@@ -140,7 +141,11 @@ export function Profile(){
             </div>
             <div className="space-x-2 mt-8">
                 <Button variant="outline" onClick={saveFormChanges}>Save Changes</Button>
-                <Button variant="destructive">Cancel</Button>
+                <Button variant="destructive" asChild>
+                    <Link to="/account">
+                        Cancel
+                    </Link>
+                </Button>
             </div>
         </div>
     )
