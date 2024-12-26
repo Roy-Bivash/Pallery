@@ -7,6 +7,7 @@ import { Login } from "@/pages/login/Login";
 import { Folders } from "@/pages/folders/Folders";
 import { Account } from "@/pages/account/Account";
 import { Profile } from "@/pages/account/Profile";
+import Security from "@/pages/account/Security";
 
 export function Router(){
     return(
@@ -21,9 +22,11 @@ export function Router(){
                     <Route path="/account">
                         <Route index element={<Account />} />
                         <Route path="profile" element={<Profile />} />
+                        <Route path="security" element={<Security />} />
                     </Route>
                 </Route>
                 <Route path="/login" element={<Login />} />
+                <Route path="/*" element={<h1>Erreur 404</h1>} />
             </Routes>
         </BrowserRouter>
     )
