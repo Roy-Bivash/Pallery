@@ -10,7 +10,7 @@ interface PasswordForm {
     new2: string
 }
 
-export default function Security(){
+export function Security(){
     const [passwordForm, setPasswordForm] = useState<PasswordForm>({ current: "", new1: "", new2: "" });
 
 

@@ -7,7 +7,8 @@ import { Login } from "@/pages/login/Login";
 import { Folders } from "@/pages/folders/Folders";
 import { Account } from "@/pages/account/Account";
 import { Profile } from "@/pages/account/Profile";
-import Security from "@/pages/account/Security";
+import { Security } from "@/pages/account/Security";
+import { Upload } from "@/pages/upload/Upload";
 
 export function Router(){
     return(
@@ -19,6 +20,9 @@ export function Router(){
                     <Route path="/folder/:id" element={<Home inFolder={true} />} />
 
                     <Route path="/folders" element={<Folders />} />
+
+                    <Route path="/upload" element={<Upload />} />
+
                     <Route path="/account">
                         <Route index element={<Account />} />
                         <Route path="profile" element={<Profile />} />

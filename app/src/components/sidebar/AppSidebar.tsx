@@ -1,4 +1,4 @@
-import { Calendar, Home, Star, Folder } from "lucide-react"
+import { Calendar, Home, Star, Folder, ImageUp } from "lucide-react"
 import { NavUser } from "./NavUser";
 import { NavLink } from "react-router";
 
@@ -37,6 +37,11 @@ const items = [
     url: "/folders",
     icon: Folder,
   },
+  {
+    title: "Upload",
+    url: "/upload",
+    icon: ImageUp,
+  }
 ];
 
 const user = {
