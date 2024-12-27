@@ -50,9 +50,17 @@ export function Upload(){
             })
             return;
         }
+        if(!newIMageTitle) {
+            toast("Invalid title", {
+                description: "Please provide a title",
+            })
+            return;
+        }
 
         const formData = new FormData();
         formData.append("image", newImageFile);
+        formData.append("title", newIMageTitle);
+
 
         // TODO
     }
