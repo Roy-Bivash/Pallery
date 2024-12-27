@@ -23,6 +23,10 @@ export function Account(){
         })
     }
 
+    function functionnnalityNotImplemented(){
+        alert("Maybe in a later version")
+    }
+
     return(
         <div className="container mx-auto p-4">
             <div id="top" className="flex gap-8">
@@ -49,7 +53,7 @@ export function Account(){
                     </div>
                 </div>
             </div>
-            <p className="mt-4 sm:w-2/3 opacity-90">{TEST_DATA.description}</p>
+            <p className="mt-8 sm:mt-4 sm:w-2/3 opacity-90">{TEST_DATA.description}</p>
 
             <div className="grid grid-cols-1 mt-12 mb-5 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
                 <Card className="flex flex-col">
@@ -86,8 +90,8 @@ export function Account(){
                         </CardDescription>
                     </CardHeader>
                     <CardFooter className="grow justify-end items-end">
-                        <Button variant="ghost" asChild>
-                            <NavLink to="/account/plan">Upgrade</NavLink>
+                        <Button variant="ghost" onClick={() => functionnnalityNotImplemented()}>
+                            Upgrade
                         </Button>
                     </CardFooter>
                 </Card>
@@ -99,8 +103,8 @@ export function Account(){
                         </CardDescription>
                     </CardHeader>
                     <CardFooter className="grow justify-end items-end">
-                        <Button variant="ghost" asChild>
-                            <NavLink to="/account/billing">Add</NavLink>
+                        <Button variant="ghost" onClick={() => functionnnalityNotImplemented()}>
+                            Add
                         </Button>
                     </CardFooter>
                 </Card>
@@ -117,8 +121,8 @@ export function Account(){
                         </CardDescription>
                     </CardHeader>
                     <CardFooter className="grow justify-end items-end">
-                        <Button variant="ghost" asChild>
-                            <NavLink to="/account/billing">Manage</NavLink>
+                        <Button variant="ghost" onClick={() => functionnnalityNotImplemented()}>
+                            Manage
                         </Button>
                     </CardFooter>
                 </Card>

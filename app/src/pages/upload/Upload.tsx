@@ -80,7 +80,7 @@ export function Upload(){
                     onDragLeave={handleDragEventFinish}
                     // onDrop={handleDragEventFinish} 
                     className={`
-                        w-fit border-dashed border-2
+                        md:w-fit border-dashed border-2
                         ${isFileDetected ? "border-blue-700" : "border-gray-500"}
                         `}
                     type="file"
@@ -88,7 +88,13 @@ export function Upload(){
                 />
                 <div className="grid w-full max-w-sm items-center gap-1.5">
                     <Label htmlFor="title">Title</Label>
-                    <Input type="text" id="title" placeholder="Image Title" />
+                    <Input 
+                        type="text" 
+                        id="title" 
+                        placeholder="Image Title" 
+                        value={newIMageTitle} 
+                        onChange={e => setNewIMageTitle(e.target.value)}
+                    />
                 </div>
                 <div className="space-x-2">
                     <Button variant="outline" type="submit">Submit</Button>

@@ -5,10 +5,10 @@ import { SidebarNav } from "../sidebar/SidebarNav";
 
 export default function SidebarLayout() {
   return (
-    <SidebarProvider>
+    <SidebarProvider className="pb-8 sm:pb-0">
       <AppSidebar />
       <SidebarInset>
-        <header className="flex h-14 shrink-0 items-center gap-2 border-b px-4">
+        <header className="flex sticky top-0 bg-background z-50 h-14 shrink-0 items-center gap-2 border-b px-4">
           <SidebarTrigger className="-ml-1" />
           <SidebarNav />
         </header>
