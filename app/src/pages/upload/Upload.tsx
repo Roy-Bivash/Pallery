@@ -97,7 +97,7 @@ export function Upload(){
                     />
                 </div>
                 <div className="space-x-2">
-                    <Button variant="outline" type="submit">Submit</Button>
+                    <Button type="submit">Submit</Button>
                     <Button variant="ghost" asChild>
                         <NavLink to="/">Cancel</NavLink>
                     </Button>

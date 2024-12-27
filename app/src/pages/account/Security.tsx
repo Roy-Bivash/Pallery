@@ -67,11 +67,11 @@ export function Security(){
                             required
                         />
                     </div>
-                    <Button type="submit" variant="secondary">Change</Button>
+                    <Button type="submit" variant="default">Change</Button>
                 </div>
             </form>
         
-            <Button className="mt-8" variant="outline" asChild>
+            <Button className="mt-8" variant="secondary" asChild>
                 <Link to="/account">
                     Return
                 </Link>
