@@ -9,6 +9,7 @@ import { Account } from "@/pages/account/Account";
 import { Profile } from "@/pages/account/Profile";
 import { Security } from "@/pages/account/Security";
 import { Upload } from "@/pages/upload/Upload";
+import { Error404 } from "@/pages/error404/Error404";
 
 export function Router(){
     return(
@@ -30,7 +31,7 @@ export function Router(){
                     </Route>
                 </Route>
                 <Route path="/login" element={<Login />} />
-                <Route path="/*" element={<h1>Erreur 404</h1>} />
+                <Route path="/*" element={<Error404 />} />
             </Routes>
         </BrowserRouter>
     )
