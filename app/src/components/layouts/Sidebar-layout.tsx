@@ -21,7 +21,7 @@ export default function SidebarLayout() {
   useEffect(() => {
     // Verify if the user is loged in
     // verifyLogin();
-  })
+  }, [])
   
   return (
     <SidebarProvider className="pb-8 sm:pb-0">
