@@ -1,6 +1,6 @@
 import express from 'express';
 const router = express.Router();
-import supabaseConnection from '../database/supabaseClient.js'; 
+import supabaseConnection from '../database/supabaseClient.js';
 
 router.get('/', async (req, res) => {
     let testData = [];
