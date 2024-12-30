@@ -3,10 +3,18 @@ import { LoginFormInput } from "@/@types/Login";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { redirect, useNavigate } from "react-router";
+
+import { CustomFetch } from "@/lib/customFetch";
+import { verifyTextInput } from "@/lib/form";
+import { wait } from "@/lib/timer";
 
 export function Login() {
     const [formInputs, setFormInputs] = useState<LoginFormInput>({ email: "", password: "" });
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    let navigate = useNavigate();
 
     function updatLogineForm(e: React.ChangeEvent<HTMLInputElement>) {
         e.preventDefault();
@@ -16,7 +24,40 @@ export function Login() {
     async function formSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
-        // TODO
+        setIsLoading(true);
+
+        const { correct, message } = verifyTextInput(formInputs.email);
+        if(!correct){
+            // In case of an error make the user wait 2 sec
+            await wait(2);
+            setIsLoading(false);
+
+            return toast("Error", {
+                description: message
+            })
+        }
+
+        const { response, error } = await CustomFetch('/auth/login', {
+            method: 'POST',
+            body: JSON.stringify({ email: formInputs.email, password: formInputs.password }),
+        });
+
+        if(error){
+            setIsLoading(false);
+            return toast("Error", {
+                description: "Internal server error"
+            })
+        }
+
+        if(response?.success){
+            navigate('/');
+        } else{
+            await wait(2);
+            setIsLoading(false);
+            return toast("Error", {
+                description: response.message
+            })
+        }
     }
 
 
