@@ -68,6 +68,32 @@ router.post('/login', async (req, res) => {
 
 });
 
+router.get('/me', authenticateToken, async (req, res) => {
+    let userInfo = null;
+    const db = req.db;
+    try {
+        const { data, error } = await supabaseConnection
+            .from('user')
+            .select('*')
+            .eq('email', email);
+        if (error) {
+            throw error;
+        }
+      
+        if (data.length != 0) {
+            userInfo = data[0];
+        }
+    } catch (err) {
+        console.error("Database error:", err);
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+
+    res.json({
+        success: true,
+        message: "User info retrieved successfully",
+        user: {...userInfo, link: req.user.link}
+    });
+});
 
 router.post('/logout', (req, res) => {
     res.cookie('token', '', {

@@ -2,8 +2,27 @@ import { AppSidebar } from "@/components/sidebar/AppSidebar";
 import { SidebarProvider, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar";
 import { Outlet } from "react-router";
 import { SidebarNav } from "../sidebar/SidebarNav";
+import { useEffect } from "react";
+import { getMe } from "@/lib/current";
+
+import { useNavigate } from "react-router";
 
 export default function SidebarLayout() {
+  const navigate = useNavigate();
+
+
+  async function verifyLogin(){
+    const data = await getMe();
+    if(!data.success){
+      navigate('/');
+    }
+  }
+
+  useEffect(() => {
+    // Verify if the user is loged in
+    // verifyLogin();
+  })
+  
   return (
     <SidebarProvider className="pb-8 sm:pb-0">
       <AppSidebar />
