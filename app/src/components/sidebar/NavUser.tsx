@@ -4,9 +4,25 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem,
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "@/components/ui/sidebar";
 import { NavLink } from "react-router";
 import { NavUserProps } from "@/@types/Nav";
+import { useNavigate } from "react-router";
+
+import { logOut } from "@/lib/current";
+import { toast } from "sonner";
 
 export function NavUser({ user }: NavUserProps) {
     const { isMobile } = useSidebar()
+    const navigate = useNavigate();
+
+    async function logOutPlayer(){
+        const res = await logOut();
+
+        if(!res){
+            return toast("Error", {
+                description: "Internal server error",
+            });
+        }
+        navigate('/login');
+    }
 
     return (
         <SidebarMenu>
@@ -67,7 +83,10 @@ export function NavUser({ user }: NavUserProps) {
                             </DropdownMenuItem>
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>
+                        <DropdownMenuItem 
+                            onClick={logOutPlayer}
+                            className="cursor-pointer"
+                        >
                             <LogOut />
                             Log out
                         </DropdownMenuItem>
