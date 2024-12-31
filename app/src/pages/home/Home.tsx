@@ -2,6 +2,8 @@ import { ImageCard } from "@/components/image/ImageCard";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { HomeProps, HomeParams, ImagesList } from "@/@types/Home";
+import { CustomFetch } from "@/lib/customFetch";
+import { toast } from "sonner";
 
 const TEST_DATA : ImagesList = [
     {
@@ -144,9 +146,17 @@ const TEST_DATA : ImagesList = [
     },
 ];
 
-async function GetAllImages(){
-    // TODO
-    return [];
+async function GetMyImages(){
+    const { response, error } = await CustomFetch('/images');
+    
+    if (error || !response?.success) {
+        toast("Error", {
+            description: "Internal server error"
+        })
+        return [];
+    }
+
+    return response.images;
 }
 async function GetFavoriteImages(){
     // TODO
@@ -187,7 +197,7 @@ export function Home({ favorite = false, inFolder = false } : HomeProps){
             console.log("favorites : ", favorite ?? false);
             console.log("Display all the images");
             
-            const data =  await GetAllImages();
+            const data =  await GetMyImages();
             setImagesList(data);
             return;
         }
@@ -196,7 +206,7 @@ export function Home({ favorite = false, inFolder = false } : HomeProps){
     return(
         <div className="container mx-auto">
             <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-4 px-4 my-5">
-                {TEST_DATA.map(card => (
+                {imagesList.map(card => (
                     <ImageCard 
                         key={card.id}
                         {...card}

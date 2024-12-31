@@ -12,6 +12,8 @@ import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerHeader, Dr
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
+import { formatImagesUrl } from "@/lib/imagesUrl";
+
 export function ImageCard({ id, title, url, favorite}: ImageCardProps){
     const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
@@ -20,7 +22,7 @@ export function ImageCard({ id, title, url, favorite}: ImageCardProps){
             <Card onClick={() => setIsDrawerOpen(true)} className="group/card break-inside-avoid my-4 cursor-pointer overflow-hidden">
                 <CardContent className="p-0">
                     <img 
-                        src={url} 
+                        src={formatImagesUrl(url)} 
                         alt={title}
                         className="transition rounded-md group-hover/card:contrast-[1.1]"
                         loading="lazy"
