@@ -3,7 +3,7 @@ import { SidebarProvider, SidebarTrigger, SidebarInset } from "@/components/ui/s
 import { Outlet } from "react-router";
 import { SidebarNav } from "../sidebar/SidebarNav";
 import { useEffect } from "react";
-import { getMe } from "@/lib/current";
+import { checkLoginStatus } from "@/lib/current";
 
 import { useNavigate } from "react-router";
 
@@ -12,15 +12,15 @@ export default function SidebarLayout() {
 
 
   async function verifyLogin(){
-    const data = await getMe();
-    if(!data.success){
-      navigate('/');
+    const data = await checkLoginStatus();
+    if(!data){
+      navigate('/login');
     }
   }
 
   useEffect(() => {
     // Verify if the user is loged in
-    // verifyLogin();
+    verifyLogin();
   }, [])
   
   return (
