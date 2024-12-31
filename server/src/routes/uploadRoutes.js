@@ -5,6 +5,7 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 import supabaseConnection from '../database/supabaseClient.js';
+import { authenticateToken } from '../lib/auth.js';
 
 
 // TODO : Change later
@@ -16,7 +17,7 @@ const router = express.Router();
 // Set up multer for handling file images
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        const uploadDir = path.join(__dirname, '../images');
+        const uploadDir = path.join(__dirname, '../image');
         if (!fs.existsSync(uploadDir)) {
             fs.mkdirSync(uploadDir);
         }
@@ -40,8 +41,7 @@ const upload = multer({
 });
 
 
-router.post('/newImage', upload.single('image'), async (req, res) => {
-    // console.log(req.file)
+router.post('/newImage', authenticateToken, upload.single('image'), async (req, res) => {
 
     const { title } = req.body;
 
@@ -53,7 +53,7 @@ router.post('/newImage', upload.single('image'), async (req, res) => {
     }
 
     try {
-        const img_url = `/images/${req.file.filename}`;
+        const img_url = `/image/${req.file.filename}`;
 
         const { data, error } = await supabaseConnection
             .from('images')

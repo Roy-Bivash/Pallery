@@ -64,7 +64,7 @@ export function Upload(){
 
 
         // TODO
-        const { response, error } = await CustomFetch("/image/newImage", { 
+        const { response, error } = await CustomFetch("/upload/newImage", { 
             method: 'POST',
             body: formData,
         });
