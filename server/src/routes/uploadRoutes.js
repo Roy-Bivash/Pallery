@@ -55,7 +55,7 @@ router.post('/newImage', upload.single('image'), async (req, res) => {
     try {
         const img_url = `/images/${req.file.filename}`;
 
-        const { data, error } = await supabase
+        const { data, error } = await supabaseConnection
             .from('images')
             .insert([
                 { url: img_url, title, user_id: req.user.id },

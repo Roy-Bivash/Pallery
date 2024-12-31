@@ -18,8 +18,8 @@ const router = express.Router();
 // Use different routers for specific route paths
 router.use('/test', express.json({ limit: '10mb' }), testRoutes);
 router.use('/auth', express.json({ limit: '10mb' }), authRoutes);
-router.use('/image', express.json({ limit: '10mb' }), imageRoutes);
-router.use('/upload', uploadRoutes);
+router.use('/images', express.json({ limit: '10mb' }), imageRoutes);
+router.use('/image', uploadRoutes);
 router.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 
