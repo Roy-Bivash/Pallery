@@ -4,6 +4,8 @@ import express from 'express';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
+import supabaseConnection from '../database/supabaseClient.js';
+
 
 // TODO : Change later
 const __filename = fileURLToPath(import.meta.url);
@@ -11,10 +13,10 @@ const __dirname = path.dirname(__filename);
 
 const router = express.Router();
 
-// Set up multer for handling file uploads
+// Set up multer for handling file images
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        const uploadDir = path.join(__dirname, '../uploads');
+        const uploadDir = path.join(__dirname, '../images');
         if (!fs.existsSync(uploadDir)) {
             fs.mkdirSync(uploadDir);
         }
@@ -38,61 +40,39 @@ const upload = multer({
 });
 
 
-router.post('/newPossibility', upload.single('picture'), async (req, res) => {
+router.post('/newImage', upload.single('image'), async (req, res) => {
     // console.log(req.file)
 
-    const db = req.db;
-    const { private_code, name } = req.body;
+    const { title } = req.body;
 
-    if (!private_code || !name || !req.file) {
+    if (!title || !req.file) {
         return res.status(400).json({
             success: false,
-            message: "Missing required fields (private_code, name, or picture)"
+            message: "Missing required fields (title or image)"
         });
     }
 
     try {
-        // Find survey by private link to get its ID
-        const survey = await new Promise((resolve, reject) => {
-            db.get('SELECT id FROM survey WHERE private_link = ?;', [private_code], (err, row) => {
-                if (err) return reject(err);
-                resolve(row);
-            });
-        });
+        const img_url = `/images/${req.file.filename}`;
 
-        if (!survey) {
-            return res.status(404).json({
-                success: false,
-                message: "Survey not found"
-            });
+        const { data, error } = await supabase
+            .from('images')
+            .insert([
+                { url: img_url, title, user_id: req.user.id },
+            ])
+            .select()
+        
+        if (error) {
+            throw error;
         }
-
-        // Prepare image URL based on file path
-        const img_url = `/uploads/${req.file.filename}`;
-
-        // Insert the new possibility into the database
-        await new Promise((resolve, reject) => {
-            db.run(
-                'INSERT INTO possibilitys (num_survey, nom, img_url) VALUES (?, ?, ?);',
-                [survey.id, name, img_url],
-                function (err) {
-                    if (err) return reject(err);
-                    resolve(this);
-                }
-            );
-        });
-
-        res.status(201).json({
+        
+        res.json({ 
             success: true,
-            message: "New possibility added successfully"
+            message: "Image added",
         });
-
-    } catch (error) {
-        console.error("Error adding new possibility:", error);
-        res.status(500).json({
-            success: false,
-            message: "Internal server error"
-        });
+    } catch (err) {
+        console.error("Database error:", err);
+        return res.status(500).json({ error: 'Internal server error' });
     }
 });
 

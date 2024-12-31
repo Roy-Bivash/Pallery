@@ -4,6 +4,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { NavLink } from "react-router";
+import { CustomFetch } from "@/lib/customFetch";
 
 export function Upload(){
     const [isFileDetected, setIsFileDetected] = useState<boolean>(false);
@@ -63,6 +64,20 @@ export function Upload(){
 
 
         // TODO
+        const { response, error } = await CustomFetch("/image/newImage", { 
+            method: 'POST',
+            body: formData,
+        });
+        if(error || !response?.success){
+            return toast("Error", {
+                description: "Internal server error",
+            });
+        }
+        if(response?.success){
+            return toast("Success", {
+                description: "New image added",
+            });
+        }
     }
 
     return(
