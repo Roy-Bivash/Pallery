@@ -2,7 +2,13 @@ import express from 'express';
 const router = express.Router();
 import supabaseConnection from '../database/supabaseClient.js';
 import { authenticateToken } from '../lib/auth.js';
+import path from 'path';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
 
+// TODO : Change later
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Return all the images of the connected user
 router.get('/', authenticateToken, async (req, res) => {
@@ -71,6 +77,71 @@ router.put('/favorite', authenticateToken, async (req, res) => {
         if (error) throw error;
     } catch (err) {
         console.error("Error:", err);
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+
+    res.json({ 
+        success: true,
+        message: "",
+    });
+});
+
+async function getImageById(img_id){
+    let { data: images, error } = await supabaseConnection
+    .from('images')
+    .select('id, url')
+    .eq('id', img_id)
+    
+    return { image: images[0], error};
+}
+
+async function deleteImgDatabase(img_id){
+    const { error } = await supabaseConnection
+        .from('images')
+        .delete()
+        .eq('id', img_id)
+    
+    return error;
+}
+
+async function deleteImgServer(url) {
+    const filePath = path.join(__dirname, `..${url}`);
+    try {
+      await fs.promises.unlink(filePath);
+    } catch (error) {
+      return `Failed to delete file: ${error.message}`
+    }
+}
+
+router.delete('/:id', authenticateToken, async (req, res) => {
+    const { id } = req.params;
+
+    if (!id) {
+        return res.status(400).json({
+            error: 'Invalid input',
+            message: 'Missing parametters',
+        });
+    }
+
+    try {
+
+        const { image, error } =  await getImageById(id);
+        if (error) {
+            throw error;
+        }
+
+        let err = deleteImgDatabase(id);
+        if(err){
+            throw err;
+        }
+
+        err = deleteImgServer(image.url);
+        if(err){
+            throw err;
+        }
+
+    } catch (err) {
+        console.error("Database error:", err);
         return res.status(500).json({ error: 'Internal server error' });
     }
 

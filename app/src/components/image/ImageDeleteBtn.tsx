@@ -10,6 +10,8 @@ import {
     DialogFooter,
     DialogClose
   } from "@/components/ui/dialog";
+import { CustomFetch } from "@/lib/customFetch";
+import { toast } from "sonner";
   
 interface ImageDeleteBtnProps{
     img_id: Number
@@ -18,7 +20,18 @@ interface ImageDeleteBtnProps{
 export function ImageDeleteBtn({img_id}: ImageDeleteBtnProps){
     async function deleteImage(){
         console.log("delete : ", img_id);
-        // TODO
+
+        const { response, error } = await CustomFetch(`/images/${img_id}`, { 
+            method: 'DELETE',
+        });
+        if(error || !response?.success){
+            return toast("Error", {
+                description: response?.error || "Internal server error",
+            });
+        }
+        if(response?.success){
+            console.log("deleted")
+        }
     }
     return(
         <Dialog>
