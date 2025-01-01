@@ -16,8 +16,31 @@ import { formatImagesUrl } from "@/lib/imagesUrl";
 
 export function ImageCard({ id, title, url, favorite}: ImageCardProps){
     const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
-
     url = formatImagesUrl(url);
+
+    async function handleDownload() {
+        try {
+            const response = await fetch(url);
+        
+            if (!response.ok) throw new Error("Failed to fetch the file");
+            
+            const blob = await response.blob();
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = title; 
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            
+            // Clean up
+            URL.revokeObjectURL(link.href); 
+        } catch (error) {
+            console.error("Error downloading the file:", error);
+            // If the image is not downloadable then open the image in a new tab :
+            window.open(url, "_blank");
+        }
+    };
+    
 
     return(
         <>
@@ -82,7 +105,9 @@ export function ImageCard({ id, title, url, favorite}: ImageCardProps){
                                 <h4 className="text-xl cursor-text font-semibold">{title || (<i>No title</i>)}</h4>
                                 <span className="flex flex-row gap-2">
                                     <Button variant="outline" className="w-fit">Open in a new tab <ArrowUpRight /></Button>
-                                    <Button variant="ghost" className="w-fit">Dawnload <Download /></Button>
+                                    <Button variant="ghost" className="w-fit" onClick={handleDownload}>
+                                            Dawnload <Download />
+                                    </Button>
                                 </span>
                                 <ImageDeleteBtn img_id={id} />
                             </section>
