@@ -18,6 +18,7 @@ import { CustomFetch } from "@/lib/customFetch";
 
 export function ImageCard({ id, title, url, favorite}: ImageCardProps){
     const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
+    const [isFavorite, setIsFavorite] = useState<boolean>(favorite)
     url = formatImagesUrl(url);
 
     async function handleDownload() {
@@ -45,6 +46,7 @@ export function ImageCard({ id, title, url, favorite}: ImageCardProps){
     
     async function handleLike(){
         let newState = !favorite;
+        console.log(favorite, newState)
 
         const { response, error } = await CustomFetch("/images/favorite", { 
             method: 'PUT',
@@ -57,6 +59,7 @@ export function ImageCard({ id, title, url, favorite}: ImageCardProps){
         }
         if(response?.success){
             favorite = newState;
+            setIsFavorite(newState);
         }
     }
 
@@ -109,8 +112,8 @@ export function ImageCard({ id, title, url, favorite}: ImageCardProps){
                                             >
                                                 <Heart 
                                                     size={35}
-                                                    fill={favorite ? "red" : "transparent"}
-                                                    color={favorite ? "red" : undefined}
+                                                    fill={isFavorite ? "red" : "transparent"}
+                                                    color={isFavorite ? "red" : undefined}
                                                 />
                                             </button>
                                         </TooltipTrigger>

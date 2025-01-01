@@ -10,13 +10,14 @@ router.get('/', authenticateToken, async (req, res) => {
 
     try {
         const { data, error } = await supabaseConnection
-            .from('images')
-            .select('id, url, title, folder_id')
-            .eq('user_id', req.user.id);
+            .rpc('get_user_images_with_favorites', { user_id_var: req.user.id });
         if (error) {
             throw error;
         }
-        images = data;
+        images = data.map(obj => {
+            const { is_favorite, ...rest } = obj;
+            return { ...rest, favorite: is_favorite };
+        });
     } catch (err) {
         console.error("Database error:", err);
         return res.status(500).json({ error: 'Internal server error' });
