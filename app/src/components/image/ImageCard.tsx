@@ -7,12 +7,14 @@ import { ImageDeleteBtn } from "./ImageDeleteBtn";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 import { formatImagesUrl } from "@/lib/imagesUrl";
+import { toast } from "sonner";
+import { CustomFetch } from "@/lib/customFetch";
 
 export function ImageCard({ id, title, url, favorite}: ImageCardProps){
     const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
@@ -31,7 +33,7 @@ export function ImageCard({ id, title, url, favorite}: ImageCardProps){
             document.body.appendChild(link);
             link.click();
             link.remove();
-            
+
             // Clean up
             URL.revokeObjectURL(link.href); 
         } catch (error) {
@@ -41,6 +43,22 @@ export function ImageCard({ id, title, url, favorite}: ImageCardProps){
         }
     };
     
+    async function handleLike(){
+        let newState = !favorite;
+
+        const { response, error } = await CustomFetch("/images/favorite", { 
+            method: 'PUT',
+            body: JSON.stringify({ newState, imgId: id }),
+        });
+        if(error || !response?.success){
+            return toast("Error", {
+                description: response?.error || "Internal server error",
+            });
+        }
+        if(response?.success){
+            favorite = newState;
+        }
+    }
 
     return(
         <>
@@ -87,6 +105,7 @@ export function ImageCard({ id, title, url, favorite}: ImageCardProps){
                                             <button 
                                                 type="button" 
                                                 className="absolute bottom-2 right-2" 
+                                                onClick={handleLike}
                                             >
                                                 <Heart 
                                                     size={35}
@@ -104,7 +123,11 @@ export function ImageCard({ id, title, url, favorite}: ImageCardProps){
                             <section className="px-2 sm:px-0 sm:max-w-[30vw] lg:max-w-[40vw] space-y-2">
                                 <h4 className="text-xl cursor-text font-semibold">{title || (<i>No title</i>)}</h4>
                                 <span className="flex flex-row gap-2">
-                                    <Button variant="outline" className="w-fit">Open in a new tab <ArrowUpRight /></Button>
+                                    <Button variant="outline" className="w-fit" asChild>
+                                        <a href={url} target="_blank">
+                                            Open in a new tab <ArrowUpRight />
+                                        </a>
+                                    </Button>
                                     <Button variant="ghost" className="w-fit" onClick={handleDownload}>
                                             Dawnload <Download />
                                     </Button>
