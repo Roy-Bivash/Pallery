@@ -19,6 +19,9 @@ export function Upload(){
             // Only set if it's an image
             setNewImageFile(selectedFile); 
             setImagePreview(URL.createObjectURL(selectedFile));
+            if(newIMageTitle.trim() == ""){
+                setNewIMageTitle(selectedFile.name)
+            }
         } else {
             toast("Invalid file type", {
                 description: "Please upload an image file (jpg, png, gif, etc.)",
@@ -95,7 +98,7 @@ export function Upload(){
                     onDragLeave={handleDragEventFinish}
                     // onDrop={handleDragEventFinish} 
                     className={`
-                        md:w-fit border-dashed border-2
+                        md:w-fit max-w-[70vw] border-dashed border-2
                         ${isFileDetected ? "border-blue-700" : "border-gray-500"}
                         `}
                     type="file"

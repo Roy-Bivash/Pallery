@@ -173,9 +173,12 @@ export function Home({ favorite = false, inFolder = false } : HomeProps){
 
     useEffect(() => {
         getImages();
-    }, []);
+    }, [favorite, inFolder]);
 
     async function getImages(){
+        // Empty the list
+        setImagesList([]);
+
         if(inFolder && folderId){
             // If a folder is specified then get the images from that folder
             console.log("Folder id : ", folderId);

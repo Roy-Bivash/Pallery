@@ -17,12 +17,14 @@ import { formatImagesUrl } from "@/lib/imagesUrl";
 export function ImageCard({ id, title, url, favorite}: ImageCardProps){
     const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
+    url = formatImagesUrl(url);
+
     return(
         <>
             <Card onClick={() => setIsDrawerOpen(true)} className="group/card break-inside-avoid my-4 cursor-pointer overflow-hidden">
                 <CardContent className="p-0">
                     <img 
-                        src={formatImagesUrl(url)} 
+                        src={url} 
                         alt={title}
                         className="transition rounded-md group-hover/card:contrast-[1.1]"
                         loading="lazy"
