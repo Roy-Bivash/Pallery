@@ -130,12 +130,17 @@ router.delete('/:id', authenticateToken, async (req, res) => {
             throw error;
         }
 
-        let err = deleteImgDatabase(id);
+        let err = await removeFavorite(req.user.id, id);
+        if(err){
+            throw err;
+        }
+        
+        err = await deleteImgDatabase(id);
         if(err){
             throw err;
         }
 
-        err = deleteImgServer(image.url);
+        err = await deleteImgServer(image.url);
         if(err){
             throw err;
         }
