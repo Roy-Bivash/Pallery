@@ -86,32 +86,16 @@ router.put('/favorite', authenticateToken, async (req, res) => {
     });
 });
 
-async function getImageById(img_id){
-    let { data: images, error } = await supabaseConnection
-    .from('images')
-    .select('id, url')
-    .eq('id', img_id)
-    
-    return { image: images[0], error};
-}
-
-async function deleteImgDatabase(img_id){
-    const { error } = await supabaseConnection
-        .from('images')
-        .delete()
-        .eq('id', img_id)
-    
-    return error;
-}
-
-async function deleteImgServer(url) {
+async function deleteImgFromFilesystem(url) {
     const filePath = path.join(__dirname, `..${url}`);
     try {
-      await fs.promises.unlink(filePath);
+        await fs.promises.unlink(filePath);
+        return { success: true };
     } catch (error) {
-      return `Failed to delete file: ${error.message}`
+        return { error: `File deletion failed: ${error.message}` };
     }
 }
+
 
 router.delete('/:id', authenticateToken, async (req, res) => {
     const { id } = req.params;
@@ -124,35 +108,33 @@ router.delete('/:id', authenticateToken, async (req, res) => {
     }
 
     try {
+        const { data:img_url, error } = await supabaseConnection
+            .rpc('delete_image_and_return_url', { image_id_del: id });
 
-        const { image, error } =  await getImageById(id);
         if (error) {
             throw error;
         }
 
-        let err = await removeFavorite(req.user.id, id);
-        if(err){
-            throw err;
-        }
-        
-        err = await deleteImgDatabase(id);
-        if(err){
-            throw err;
+        if(!img_url){
+            throw "Error: the image was not deleted";
         }
 
-        err = await deleteImgServer(image.url);
-        if(err){
-            throw err;
+        const { error: fsError } = await deleteImgFromFilesystem(img_url);
+        if(fsError){
+            throw "Error: File deletion error";
         }
+
 
     } catch (err) {
-        console.error("Database error:", err);
-        return res.status(500).json({ error: 'Internal server error' });
+        console.error("Unexpected error:", err);
+        res.status(500).json({
+            error: 'Unexpected internal server error',
+        });
     }
 
-    res.json({ 
+    res.json({
         success: true,
-        message: "",
+        message: "Image deleted successfully",
     });
 });
 
