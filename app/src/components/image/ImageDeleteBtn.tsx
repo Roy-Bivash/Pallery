@@ -14,10 +14,11 @@ import { CustomFetch } from "@/lib/customFetch";
 import { toast } from "sonner";
   
 interface ImageDeleteBtnProps{
-    img_id: Number
+    img_id: Number,
+    onSuccess: () => void
 }
 
-export function ImageDeleteBtn({img_id}: ImageDeleteBtnProps){
+export function ImageDeleteBtn({img_id, onSuccess}: ImageDeleteBtnProps){
     async function deleteImage(){
         console.log("delete : ", img_id);
 
@@ -30,7 +31,7 @@ export function ImageDeleteBtn({img_id}: ImageDeleteBtnProps){
             });
         }
         if(response?.success){
-            console.log("deleted")
+            onSuccess();
         }
     }
     return(

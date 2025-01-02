@@ -16,7 +16,7 @@ import { formatImagesUrl } from "@/lib/imagesUrl";
 import { toast } from "sonner";
 import { CustomFetch } from "@/lib/customFetch";
 
-export function ImageCard({ id, title, url, favorite}: ImageCardProps){
+export function ImageCard({ id, title, url, favorite, removeImageFromList }: ImageCardProps){
     const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
     const [isFavorite, setIsFavorite] = useState<boolean>(favorite)
     url = formatImagesUrl(url);
@@ -61,6 +61,12 @@ export function ImageCard({ id, title, url, favorite}: ImageCardProps){
             favorite = newState;
             setIsFavorite(newState);
         }
+    }
+
+    function onDeleteSuccess(){
+        // close the drower and update the image list :
+        setIsDrawerOpen(false);
+        removeImageFromList(id)
     }
 
     return(
@@ -135,7 +141,10 @@ export function ImageCard({ id, title, url, favorite}: ImageCardProps){
                                             Dawnload <Download />
                                     </Button>
                                 </span>
-                                <ImageDeleteBtn img_id={id} />
+                                <ImageDeleteBtn
+                                    img_id={id} 
+                                    onSuccess={onDeleteSuccess}
+                                />
                             </section>
                         </div>
                     </ScrollArea>

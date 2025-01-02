@@ -9,7 +9,9 @@ interface GridProps {
     cards: Array<ImageCardData>
 }
 
-interface ImageCardProps extends ImageCardData {}
+interface ImageCardProps extends ImageCardData {
+    removeImageFromList: (id:number) => void
+}
 
 export type {
     ImageCardData,
