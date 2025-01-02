@@ -5,6 +5,7 @@ import { authenticateToken } from '../lib/auth.js';
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
+import { isURL } from '../lib/url.js';
 
 // TODO : Change later
 const __filename = fileURLToPath(import.meta.url);
@@ -118,13 +119,14 @@ router.delete('/:id', authenticateToken, async (req, res) => {
         if(!img_url){
             throw "Error: the image was not deleted";
         }
-
-        const { error: fsError } = await deleteImgFromFilesystem(img_url);
-        if(fsError){
-            throw "Error: File deletion error";
+        
+        // Delete the image from the system if it is not an external url
+        if(!isURL(img_url)){
+            const { error: fsError } = await deleteImgFromFilesystem(img_url);
+            if(fsError){
+                throw "Error: File deletion error";
+            }
         }
-
-
     } catch (err) {
         console.error("Unexpected error:", err);
         res.status(500).json({
