@@ -97,7 +97,6 @@ async function deleteImgFromFilesystem(url) {
     }
 }
 
-
 router.delete('/:id', authenticateToken, async (req, res) => {
     const { id } = req.params;
 
@@ -140,4 +139,35 @@ router.delete('/:id', authenticateToken, async (req, res) => {
     });
 });
 
+
+router.post('/newLinkImage', authenticateToken, async (req, res) => {
+
+    const { title, link } = req.body;
+
+    if (!title || !link) {
+        return res.status(400).json({
+            error: 'Invalid input',
+            message: 'Missing parametters',
+        });
+    }
+
+    try {
+        const { error } = await supabaseConnection
+        .from('images')
+        .insert([
+            { url: link, title: title, user_id: req.user.id },
+        ])
+    if (error) {
+        throw error;
+    }
+    } catch (err) {
+        console.error("Database error:", err);
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+
+    res.json({ 
+        success: true,
+        message: "New image added",
+    });
+})
 export default router;
