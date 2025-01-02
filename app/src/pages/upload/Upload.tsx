@@ -65,8 +65,6 @@ export function Upload(){
         formData.append("image", newImageFile);
         formData.append("title", newIMageTitle);
 
-
-        // TODO
         const { response, error } = await CustomFetch("/upload/newImage", { 
             method: 'POST',
             body: formData,
@@ -77,6 +75,9 @@ export function Upload(){
             });
         }
         if(response?.success){
+            setNewImageFile(null);
+            setImagePreview(null);
+            setNewIMageTitle("");
             return toast("Success", {
                 description: "New image added",
             });
