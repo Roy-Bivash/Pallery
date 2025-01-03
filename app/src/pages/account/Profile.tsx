@@ -4,10 +4,12 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { X } from "lucide-react";
 import { toast } from "sonner";
 import { Link } from "react-router";
+import { UserType } from "@/@types/User";
+import { getMe } from "@/lib/current";
 
 const TEST_DATA = {
     name: "Bivash ROY",
@@ -30,8 +32,29 @@ const TEST_DATA = {
 }
 
 export function Profile(){
+    const [userData, setUserData] = useState<UserType>({ id: 0, email: "", name: "", pseudo: "", bio: "", profile_picture: "" });
+
     const [profileForm, setProfileForm] = useState(TEST_DATA);
     const inputRef = useRef<HTMLInputElement>(null);
+
+
+    useEffect(() => {
+        async function getUserData(){
+            const { success, user, img_count } = await getMe();
+
+            if(!success){
+                return toast("Error", {
+                    description: "Internal server error",
+                })
+            }
+            if(user) {
+                setUserData(user);
+            }
+        }
+        
+        getUserData();
+    }, []);
+
 
     function updateForm(e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) {
         e.preventDefault();

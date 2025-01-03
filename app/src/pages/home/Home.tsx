@@ -170,10 +170,6 @@ async function GetFavoriteImages(){
     
     return response.images;
 }
-async function GetFolderImages(folderId: number){
-    // TODO
-    return [];
-}
 
 export function Home({ favorite = false } : HomeProps){
     const { id : folderId } = useParams<HomeParams>();
@@ -189,17 +185,11 @@ export function Home({ favorite = false } : HomeProps){
 
         if(favorite){
             // If favorite is true then get the images marked as favorite
-            console.log("favorites : ", favorite);
-            console.log("Display the favorite images");
-
             const data =  await GetFavoriteImages();
             setImagesList(data);
             return;
         }else{
             // If no folder or favorite is specified then show all the images
-            console.log("favorites : ", favorite ?? false);
-            console.log("Display all the images");
-            
             const data =  await GetMyImages();
             setImagesList(data);
             return;

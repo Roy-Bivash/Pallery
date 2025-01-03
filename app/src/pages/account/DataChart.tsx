@@ -24,7 +24,7 @@ export function DataChart({ percentage }: { percentage:number }) {
     ];
     const chartValue = 360 * (percentage/100);
 
-    console.log(chartValue)
+    // console.log(chartValue)
     return (
         <ChartContainer
             config={chartConfig}
