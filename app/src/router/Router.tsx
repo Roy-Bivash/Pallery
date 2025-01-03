@@ -4,7 +4,6 @@ import SidebarLayout from "@/components/layouts/Sidebar-layout";
 
 import { Home } from "@/pages/home/Home";
 import { Login } from "@/pages/login/Login";
-import { Folders } from "@/pages/folders/Folders";
 import { Account } from "@/pages/account/Account";
 import { Profile } from "@/pages/account/Profile";
 import { Security } from "@/pages/account/Security";

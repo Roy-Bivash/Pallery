@@ -68,33 +68,6 @@ router.post('/login', async (req, res) => {
 
 });
 
-// Get the loged users infos
-router.get('/me', authenticateToken, async (req, res) => {
-    let userInfo = null;
-    try {
-        const { data, error } = await supabaseConnection
-            .from('user')
-            .select('id, email, name, pseudo, bio, profile_picture')
-            .eq('id', req.user.id);
-        if (error) {
-            throw error;
-        }
-      
-        if (data.length != 0) {
-            userInfo = data[0];
-        }
-    } catch (err) {
-        console.error("Database error:", err);
-        return res.status(500).json({ error: 'Internal server error' });
-    }
-
-    res.json({
-        success: true,
-        message: "User info retrieved successfully",
-        user: userInfo
-    });
-});
-
 // This route checks if the user is logged in
 router.get('/isLoggedIn', authenticateToken, (req, res) => {
     // If the middleware passes, it means the user is authenticated

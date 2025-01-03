@@ -1,7 +1,7 @@
 import { CustomFetch } from "./customFetch";
 
 async function getMe(){
-    const { response, error } = await CustomFetch('/auth/me');
+    const { response, error } = await CustomFetch('/user');
 
     if(error){
         return {
