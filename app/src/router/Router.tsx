@@ -18,9 +18,6 @@ export function Router(){
                 <Route element={<SidebarLayout />}>
                     <Route path="/" element={<Home />} />
                     <Route path="/favorite" element={<Home favorite={true} />} />
-                    <Route path="/folder/:id" element={<Home inFolder={true} />} />
-
-                    <Route path="/folders" element={<Folders />} />
 
                     <Route path="/upload" element={<Upload />} />
 

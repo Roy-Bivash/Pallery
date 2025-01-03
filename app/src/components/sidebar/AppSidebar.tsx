@@ -33,11 +33,6 @@ const items = [
     icon: Calendar,
   },
   {
-    title: "Folders",
-    url: "/folders",
-    icon: Folder,
-  },
-  {
     title: "Upload",
     url: "/upload",
     icon: ImageUp,
