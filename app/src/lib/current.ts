@@ -1,6 +1,4 @@
 import { CustomFetch } from "./customFetch";
-import { UserType } from "@/@types/User";
-
 
 async function getMe() {
     const { response, error } = await CustomFetch('/user');

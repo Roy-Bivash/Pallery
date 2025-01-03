@@ -17,10 +17,6 @@ const TEST_DATA = {
     description: "User bio here : Lorem ipsum dolor sit, amet consectetur adipisicing elit. Placeat assumenda odio fugit iusto dicta omnis reprehenderit ab laudantium ex! Et animi possimus quaerat nam corporis minima harum assumenda laborum nobis?"
 }
 
-
-
-
-
 export function Account(){
     const [userData, setUserData] = useState<UserType>({ id: 0, email: "", name: "", pseudo: "", bio: "", profile_picture: "" });
     const [img_count, setImg_count] = useState<number>(0);
