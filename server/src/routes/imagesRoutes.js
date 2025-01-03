@@ -37,6 +37,33 @@ router.get('/', authenticateToken, async (req, res) => {
     });
 });
 
+// Return all the images of the connected user
+router.get('/favorite', authenticateToken, async (req, res) => {
+    let images = [];
+
+    try {
+        const { data, error } = await supabaseConnection
+            .from('favorite')
+            .select('...images!inner(id, url, title)')
+            .eq('user_id', req.user.id);
+        if (error) {
+            throw error;
+        }
+        images = data.map(obj => {
+            return { ...obj, favorite: true };
+        });
+    } catch (err) {
+        console.error("Database error:", err);
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+
+    res.json({ 
+        success: true,
+        message: `All the images of ${req.user.name}`,
+        images
+    });
+});
+
 async function removeFavorite(user_id, img_id) {
     const { error } = await supabaseConnection
         .from('favorite')
@@ -139,7 +166,6 @@ router.delete('/:id', authenticateToken, async (req, res) => {
     });
 });
 
-
 router.post('/newLinkImage', authenticateToken, async (req, res) => {
 
     const { title, link } = req.body;
@@ -169,5 +195,6 @@ router.post('/newLinkImage', authenticateToken, async (req, res) => {
         success: true,
         message: "New image added",
     });
-})
+});
+
 export default router;

@@ -17,6 +17,7 @@ type HomeParams = {
 type ImagesList = Array<Image>;
 
 export type {
+    Image,
     HomeProps,
     HomeParams,
     ImagesList

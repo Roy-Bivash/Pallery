@@ -159,8 +159,16 @@ async function GetMyImages(){
     return response.images;
 }
 async function GetFavoriteImages(){
-    // TODO
-    return [];
+    const { response, error } = await CustomFetch('/images/favorite');
+    
+    if (error || !response?.success) {
+        toast("Error", {
+            description: "Internal server error"
+        })
+        return [];
+    }
+    
+    return response.images;
 }
 async function GetFolderImages(folderId: number){
     // TODO
