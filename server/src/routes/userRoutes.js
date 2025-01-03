@@ -3,6 +3,7 @@ const router = express.Router();
 import supabaseConnection from '../database/supabaseClient.js';
 import { authenticateToken } from '../lib/auth.js';
 
+// TODO : get the numbers of images of the user
 // Get the loged users infos
 router.get('/', authenticateToken, async (req, res) => {
     let userInfo = null;
