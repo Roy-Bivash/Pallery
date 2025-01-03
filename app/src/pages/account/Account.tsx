@@ -6,15 +6,42 @@ import { NavLink } from "react-router";
 import { toast } from "sonner";
 import { DataChart } from "./DataChart";
 import { Badge } from "@/components/ui/badge";
+import { useEffect, useState } from "react";
+import { UserType } from "@/@types/User";
+import { getMe } from "@/lib/current";
+import { CustomFetch } from "@/lib/customFetch";
 
-  
 const TEST_DATA = {
     name: "Bivash ROY",
     pseudo: "@bivash_roy",
     description: "User bio here : Lorem ipsum dolor sit, amet consectetur adipisicing elit. Placeat assumenda odio fugit iusto dicta omnis reprehenderit ab laudantium ex! Et animi possimus quaerat nam corporis minima harum assumenda laborum nobis?"
 }
+
+
+
+
+
 export function Account(){
-    
+    const [userData, setUserData] = useState<UserType>({ id: 0, email: "", name: "", pseudo: "", bio: "", profile_picture: "" });
+    const [img_count, setImg_count] = useState<number>(0);
+
+    useEffect(() => {
+        async function getUserData(){
+            const { success, user, img_count } = await getMe();
+
+            if(!success){
+                return toast("Error", {
+                    description: "Internal server error",
+                })
+            }
+            if(user) {
+                setUserData(user);
+                setImg_count(img_count);
+            }
+        }
+        
+        getUserData();
+    }, []);
 
     function copy(value:string){
         navigator.clipboard.writeText(value);
@@ -32,17 +59,17 @@ export function Account(){
             <div id="top" className="flex gap-8">
                 <Avatar className="h-24 w-24">
                     <AvatarImage src="" />
-                    <AvatarFallback>{TEST_DATA.name.substring(0, 2).toUpperCase()}</AvatarFallback>
+                    <AvatarFallback>{userData.name.substring(0, 2).toUpperCase()}</AvatarFallback>
                 </Avatar>
                 <div>
-                    <h3 className="text-lg font-bold">{TEST_DATA.name}</h3>
+                    <h3 className="text-lg font-bold">{userData.name}</h3>
                     <p className="flex gap-2">
                         <span className="opacity-85">
-                            {TEST_DATA.pseudo}
+                            {userData.pseudo}
                         </span>
                         <Copy 
                             size={12} 
-                            onClick={() => copy(TEST_DATA.pseudo)}
+                            onClick={() => copy(userData.pseudo)}
                             className="mt-1 opacity-80 hover:opacity-100 cursor-pointer" 
                         />
                     </p>
@@ -53,7 +80,7 @@ export function Account(){
                     </div>
                 </div>
             </div>
-            <p className="mt-8 sm:mt-4 sm:w-2/3 opacity-90">{TEST_DATA.description}</p>
+            <p className="mt-8 sm:mt-4 sm:w-2/3 opacity-90">{userData.bio}</p>
 
             <div className="grid grid-cols-1 mt-12 mb-5 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
                 <Card className="flex flex-col">
@@ -112,11 +139,11 @@ export function Account(){
                     <CardHeader>
                         <CardTitle>Data</CardTitle>
                         <CardDescription>
-                            <DataChart percentage={60} />
+                            <DataChart percentage={img_count} />
                             <p>
                                 The Free plan gives you 100 images of storage
                                 <br />
-                                Used : 60 images
+                                Used : {img_count} images
                             </p>
                         </CardDescription>
                     </CardHeader>

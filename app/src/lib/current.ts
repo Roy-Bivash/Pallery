@@ -1,9 +1,11 @@
 import { CustomFetch } from "./customFetch";
+import { UserType } from "@/@types/User";
 
-async function getMe(){
+
+async function getMe() {
     const { response, error } = await CustomFetch('/user');
 
-    if(error){
+    if (error) {
         return {
             success: false,
             user: null
@@ -12,8 +14,9 @@ async function getMe(){
 
     return {
         success: response.success || false,
-        user: response.user || null
-    }
+        user: response.user,
+        img_count: response.img_count,
+    };
 }
 
 // This function check if the user is logged in

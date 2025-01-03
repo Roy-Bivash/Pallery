@@ -28,15 +28,15 @@ const items = [
     icon: Star,
   },
   {
-    title: "Calendar",
-    url: "#",
-    icon: Calendar,
-  },
-  {
     title: "Upload",
     url: "/upload",
     icon: ImageUp,
-  }
+  },
+  // {
+  //   title: "Calendar",
+  //   url: "#",
+  //   icon: Calendar,
+  // },
 ];
 
 const user = {
