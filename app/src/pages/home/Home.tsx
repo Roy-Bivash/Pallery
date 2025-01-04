@@ -1,9 +1,10 @@
 import { ImageCard } from "@/components/image/ImageCard";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
-import { HomeProps, HomeParams, ImagesList } from "@/@types/Home";
+import { HomeProps, ImagesList } from "@/@types/Home";
 import { CustomFetch } from "@/lib/customFetch";
 import { toast } from "sonner";
+import { Skeleton } from "@/components/ui/skeleton";
+import { AddImageCard } from "@/components/image/AddImageCard";
 
 const TEST_DATA : ImagesList = [
     {
@@ -172,14 +173,15 @@ async function GetFavoriteImages(){
 }
 
 export function Home({ favorite = false } : HomeProps){
-    const { id : folderId } = useParams<HomeParams>();
     const [imagesList, setImagesList] = useState<ImagesList>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     useEffect(() => {
         getImages();
     }, [favorite]);
 
     async function getImages(){
+        setIsLoading(true)
         // Empty the list
         setImagesList([]);
 
@@ -187,13 +189,16 @@ export function Home({ favorite = false } : HomeProps){
             // If favorite is true then get the images marked as favorite
             const data =  await GetFavoriteImages();
             setImagesList(data);
+            setIsLoading(false);
             return;
         }else{
             // If no folder or favorite is specified then show all the images
             const data =  await GetMyImages();
             setImagesList(data);
+            setIsLoading(false);
             return;
         }
+        
     }
 
     function removeImageFromList(id:number){
@@ -210,6 +215,25 @@ export function Home({ favorite = false } : HomeProps){
                         {...card}
                     />
                 ))}
+                {(imagesList?.length == 0) && (
+                    <AddImageCard />
+                )}
+                {isLoading && (
+                    <>
+                        <Skeleton className="h-[400px] rounded-xl break-inside-avoid my-4" />
+                        <Skeleton className="h-[400px] rounded-xl break-inside-avoid my-4" />
+                        <Skeleton className="h-[400px] rounded-xl break-inside-avoid my-4" />
+                        <Skeleton className="h-[400px] rounded-xl break-inside-avoid my-4" />
+                        <Skeleton className="h-[400px] rounded-xl break-inside-avoid my-4" />
+                        <Skeleton className="h-[400px] rounded-xl break-inside-avoid my-4" />
+                        <Skeleton className="h-[400px] rounded-xl break-inside-avoid my-4" />
+                        <Skeleton className="h-[400px] rounded-xl break-inside-avoid my-4" />
+                        <Skeleton className="h-[400px] rounded-xl break-inside-avoid my-4" />
+                        <Skeleton className="h-[400px] rounded-xl break-inside-avoid my-4" />
+                        <Skeleton className="h-[400px] rounded-xl break-inside-avoid my-4" />
+                        <Skeleton className="h-[400px] rounded-xl break-inside-avoid my-4" />
+                    </>
+                )}
             </div>
         </div>
     )

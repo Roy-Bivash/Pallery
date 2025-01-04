@@ -10,15 +10,11 @@ interface Image {
     favorite: boolean,
 }
 
-type HomeParams = {
-    id?: string;
-};
 
 type ImagesList = Array<Image>;
 
 export type {
     Image,
     HomeProps,
-    HomeParams,
     ImagesList
 }
