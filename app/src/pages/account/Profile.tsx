@@ -110,6 +110,9 @@ export function Profile(){
                 description: "Internal server error"
             })
         }
+
+
+        
         if(response?.success){
             navigate('/account');
         }

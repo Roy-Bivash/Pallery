@@ -40,7 +40,6 @@ const upload = multer({
     }
 });
 
-
 router.post('/newImage', authenticateToken, upload.single('image'), async (req, res) => {
 
     const { title } = req.body;
@@ -66,6 +65,59 @@ router.post('/newImage', authenticateToken, upload.single('image'), async (req, 
             throw error;
         }
         
+        res.json({ 
+            success: true,
+            message: "Image added",
+        });
+    } catch (err) {
+        console.error("Database error:", err);
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+async function deleteImgFromFilesystem(url) {
+    const filePath = path.join(__dirname, `..${url}`);
+    try {
+        await fs.promises.unlink(filePath);
+        return { success: true };
+    } catch (error) {
+        return { error: `File deletion failed: ${error.message}` };
+    }
+}
+
+router.post('/newProfilePicture', authenticateToken, upload.single('image'), async (req, res) => {
+
+    const { title } = req.body;
+
+    if (!title || !req.file) {
+        return res.status(400).json({
+            success: false,
+            message: "Missing required fields (title or image)"
+        });
+    }
+
+    try {
+        const img_url = `/image/${req.file.filename}`;
+
+        // change the profile_picture from the databse
+        const { data, error } = await supabaseConnection
+            .rpc('update_user_profile_picture', {
+                user_id: req.user.id,
+                new_picture: img_url
+            })
+        
+        if (error) {
+            throw error;
+        }
+
+        // Delete the old profile picture from the server
+        if(data[0].old_profile_picture != ""){
+            const { error: fsError } = await deleteImgFromFilesystem(data[0].old_profile_picture);
+            if(fsError){
+                throw "Error: File deletion error";
+            }
+        }
+
         res.json({ 
             success: true,
             message: "Image added",

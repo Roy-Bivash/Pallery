@@ -9,7 +9,6 @@ import { Badge } from "@/components/ui/badge";
 import { useEffect, useState } from "react";
 import { UserType, TagType } from "@/@types/User";
 import { getMe } from "@/lib/current";
-import { CustomFetch } from "@/lib/customFetch";
 
 const TEST_DATA = {
     name: "Bivash ROY",
