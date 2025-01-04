@@ -14,6 +14,7 @@ async function getMe() {
         success: response.success || false,
         user: response.user,
         img_count: response.img_count,
+        tags: response.tags
     };
 }
 

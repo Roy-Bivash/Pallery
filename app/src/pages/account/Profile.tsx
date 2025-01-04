@@ -7,40 +7,45 @@ import { Badge } from "@/components/ui/badge";
 import { useEffect, useRef, useState } from "react";
 import { X } from "lucide-react";
 import { toast } from "sonner";
-import { Link } from "react-router";
-import { UserType } from "@/@types/User";
+import { Link, useNavigate } from "react-router";
+import { TagType, UserType } from "@/@types/User";
 import { getMe } from "@/lib/current";
+import { CustomFetch } from "@/lib/customFetch";
 
-const TEST_DATA = {
-    name: "Bivash ROY",
-    pseudo: "@bivash_roy",
-    tags: [
-        {
-            id:1,
-            name:"Creative"
-        },
-        {
-            id:2,
-            name:"Cartoon"
-        },
-        {
-            id:3,
-            name:"Video Game"
-        }
-    ],
-    description: "User bio here : Lorem ipsum dolor sit, amet consectetur adipisicing elit. Placeat assumenda odio fugit iusto dicta omnis reprehenderit ab laudantium ex! Et animi possimus quaerat nam corporis minima harum assumenda laborum nobis?"
-}
+// const TEST_DATA = {
+//     name: "Bivash ROY",
+//     pseudo: "@bivash_roy",
+//     tags: [
+//         {
+//             id:1,
+//             name:"Creative"
+//         },
+//         {
+//             id:2,
+//             name:"Cartoon"
+//         },
+//         {
+//             id:3,
+//             name:"Video Game"
+//         }
+//     ],
+//     description: "User bio here : Lorem ipsum dolor sit, amet consectetur adipisicing elit. Placeat assumenda odio fugit iusto dicta omnis reprehenderit ab laudantium ex! Et animi possimus quaerat nam corporis minima harum assumenda laborum nobis?"
+// }
 
 export function Profile(){
     const [userData, setUserData] = useState<UserType>({ id: 0, email: "", name: "", pseudo: "", bio: "", profile_picture: "" });
-
-    const [profileForm, setProfileForm] = useState(TEST_DATA);
+    const [userTags, setUserTags] = useState<Array<TagType>>([]);
+    const [newUserTags, setNewUserTags] = useState<Array<TagType>>([]);
+    const [newImageFile, setNewImageFile] = useState(null);
+    const [imagePreview, setImagePreview] = useState<string | null>(null);
+    // const [profileForm, setProfileForm] = useState(TEST_DATA);
     const inputRef = useRef<HTMLInputElement>(null);
+    const navigate = useNavigate();
 
 
     useEffect(() => {
         async function getUserData(){
-            const { success, user, img_count } = await getMe();
+            const { success, user, tags } = await getMe();
 
             if(!success){
                 return toast("Error", {
@@ -49,25 +54,70 @@ export function Profile(){
             }
             if(user) {
                 setUserData(user);
+                setUserTags(tags);
+                setNewUserTags(tags);
             }
         }
         
         getUserData();
     }, []);
 
+    // @ts-ignore
+    const handleFileChange = (e) => {
+        const selectedFile = e.target.files[0];
+        if (selectedFile && selectedFile.type.startsWith("image/")) {
+            // Only set if it's an image
+            setNewImageFile(selectedFile); 
+            setImagePreview(URL.createObjectURL(selectedFile));
+        } else {
+            toast("Invalid file type", {
+                description: "Please upload an image file (jpg, png, gif, etc.)",
+            })
+            // Clear the file state if not an image
+            setNewImageFile(null); 
+        }
+    };
 
     function updateForm(e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) {
         e.preventDefault();
-        setProfileForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+        setUserData(prev => ({ ...prev, [e.target.name]: e.target.value }));
     }
 
     async function saveFormChanges(){
-        console.log(profileForm);
+
+        const removedTags = userTags.filter(
+            originalItem => !newUserTags.some(newItem => newItem.tag_id === originalItem.tag_id)
+        );
+        
+        const addedObjects = newUserTags.filter(
+            newItem => !userTags.some(originalItem => originalItem.tag_id === newItem.tag_id)
+        );
+
+        const newFormData = {
+            user: userData,
+            tags: {
+                add: addedObjects,
+                remove: removedTags,
+            }
+        }
+
+        const { response, error } = await CustomFetch('/user/update', {
+            method: 'POST',
+            body: JSON.stringify(newFormData),
+        });
+        if(error || !response?.success){
+            return toast("Error", {
+                description: "Internal server error"
+            })
+        }
+        if(response?.success){
+            navigate('/account');
+        }
     }
 
     function removeTag(id: number){
-        const newTagsList = profileForm.tags.filter((el) => el.id != id);
-        setProfileForm({...profileForm, tags:newTagsList});
+        const newTagsList = newUserTags.filter((el) => el.tag_id != id);
+        setNewUserTags(newTagsList);
     }
 
     function addNewTag(e:React.FormEvent<HTMLFormElement>){
@@ -75,13 +125,10 @@ export function Profile(){
         if (inputRef.current && inputRef.current?.value.trim() != "") {
             console.log("Input value:", inputRef.current.value);
 
-            const newTagsList = profileForm.tags;
-            newTagsList.push({
-                id: Math.random(), // TODO change the id generation (don't use the Math.random)
-                name:inputRef.current.value
-            });
-            setProfileForm({...profileForm, tags:newTagsList});
+            const newTagsList = [...newUserTags, { tag_id: Math.random(), name: inputRef.current.value }];
+            setNewUserTags(newTagsList);
             inputRef.current.value = "";
+            console.log(newUserTags)
             return;
         }
         toast("Error", {
@@ -93,12 +140,12 @@ export function Profile(){
             <h1 className="text-2xl font-bold mb-6">Edit you profile</h1>
             <div className="flex md:flex-row flex-col gap-8 md:items-center">
                 <Avatar className="h-24 w-24">
-                    <AvatarImage src="" />
-                    <AvatarFallback>{TEST_DATA.name.substring(0, 2).toUpperCase()}</AvatarFallback>
+                    <AvatarImage src={!newImageFile ? userData.profile_picture : imagePreview || ""} />
+                    <AvatarFallback>{userData.name.substring(0, 2).toUpperCase()}</AvatarFallback>
                 </Avatar>
                 <div className="grid w-full max-w-sm items-center gap-1.5">
                     <Label htmlFor="picture">Chnage your profile picture</Label>
-                    <Input id="picture" type="file" />
+                    <Input id="picture" type="file" onChange={handleFileChange} />
                 </div>
             </div>
             <div className="mt-8 flex md:flex-row flex-col gap-4">
@@ -108,7 +155,8 @@ export function Profile(){
                         type="text" 
                         id="user_name" 
                         placeholder="user name" 
-                        value={profileForm.name} 
+                        value={userData.name} 
+                        name="name"
                         onChange={updateForm}
                         required
                     />
@@ -119,8 +167,19 @@ export function Profile(){
                         type="text" 
                         id="pseudo" 
                         placeholder="@pseudo" 
-                        value={profileForm.pseudo} 
+                        value={userData.pseudo} 
                         name="pseudo"
+                        onChange={updateForm}
+                    />
+                </div>
+                <div className="grid w-full max-w-sm items-center gap-1.5">
+                    <Label htmlFor="email">Email</Label>
+                    <Input 
+                        type="text" 
+                        id="email" 
+                        placeholder="m@exemple.com" 
+                        value={userData.email} 
+                        name="email"
                         onChange={updateForm}
                     />
                 </div>
@@ -131,9 +190,9 @@ export function Profile(){
                     className="md:max-w-[800px] min-h-28" 
                     placeholder="Type your message here." 
                     id="description" 
-                    value={profileForm.description}
+                    value={userData.bio || ""}
                     onChange={updateForm}
-                    name="description"
+                    name="bio"
                 />
             </div>
             <div className="mt-5">
@@ -150,13 +209,13 @@ export function Profile(){
                         />
                         <Button type="submit" variant="outline" className="rounded-l-none">Add</Button>
                     </form>
-                    {profileForm.tags.map(el => (
-                        <Badge variant="secondary" key={el.id}>
+                    {newUserTags.map(el => (
+                        <Badge variant="secondary" key={el.tag_id}>
                             {el.name}
                             <X 
                                 size={15}
                                 className="cursor-pointer hover:text-red-700"
-                                onClick={() => removeTag(el.id)}
+                                onClick={() => removeTag(el.tag_id)}
                             />
                         </Badge>
                     ))}

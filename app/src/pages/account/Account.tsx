@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import { DataChart } from "./DataChart";
 import { Badge } from "@/components/ui/badge";
 import { useEffect, useState } from "react";
-import { UserType } from "@/@types/User";
+import { UserType, TagType } from "@/@types/User";
 import { getMe } from "@/lib/current";
 import { CustomFetch } from "@/lib/customFetch";
 
@@ -20,10 +20,11 @@ const TEST_DATA = {
 export function Account(){
     const [userData, setUserData] = useState<UserType>({ id: 0, email: "", name: "", pseudo: "", bio: "", profile_picture: "" });
     const [img_count, setImg_count] = useState<number>(0);
+    const [userTags, setUserTags] = useState<Array<TagType>>([]);
 
     useEffect(() => {
         async function getUserData(){
-            const { success, user, img_count } = await getMe();
+            const { success, user, img_count, tags } = await getMe();
 
             if(!success){
                 return toast("Error", {
@@ -33,6 +34,7 @@ export function Account(){
             if(user) {
                 setUserData(user);
                 setImg_count(img_count);
+                setUserTags(tags);
             }
         }
         
@@ -70,9 +72,9 @@ export function Account(){
                         />
                     </p>
                     <div className="space-x-2 space-y-2">
-                        <Badge variant="secondary">Creative</Badge>
-                        <Badge variant="secondary">Cartoon</Badge>
-                        <Badge variant="secondary">Video Game</Badge>
+                        {userTags.map(el => (
+                            <Badge variant="secondary" key={el.tag_id}>{el.name}</Badge>
+                        ))}
                     </div>
                 </div>
             </div>
