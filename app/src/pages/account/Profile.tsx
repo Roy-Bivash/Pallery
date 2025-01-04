@@ -11,6 +11,7 @@ import { Link, useNavigate } from "react-router";
 import { TagType, UserType } from "@/@types/User";
 import { getMe } from "@/lib/current";
 import { CustomFetch } from "@/lib/customFetch";
+import { formatImagesUrl } from "@/lib/imagesUrl";
 
 // const TEST_DATA = {
 //     name: "Bivash ROY",
@@ -111,6 +112,21 @@ export function Profile(){
             })
         }
 
+        // Change the profile picture
+        if(newImageFile){
+            const ImgformData = new FormData();
+            ImgformData.append("image", newImageFile);
+
+            const { response, error } = await CustomFetch("/upload/newProfilePicture", { 
+                method: 'POST',
+                body: ImgformData,
+            });
+            if(error || !response?.success){
+                return toast("Error", {
+                    description: "Internal server error",
+                });
+            }
+        }
 
         
         if(response?.success){
@@ -143,7 +159,7 @@ export function Profile(){
             <h1 className="text-2xl font-bold mb-6">Edit you profile</h1>
             <div className="flex md:flex-row flex-col gap-8 md:items-center">
                 <Avatar className="h-24 w-24">
-                    <AvatarImage src={!newImageFile ? userData.profile_picture : imagePreview || ""} />
+                    <AvatarImage src={!newImageFile ? formatImagesUrl(userData.profile_picture) : imagePreview || ""} />
                     <AvatarFallback>{userData.name.substring(0, 2).toUpperCase()}</AvatarFallback>
                 </Avatar>
                 <div className="grid w-full max-w-sm items-center gap-1.5">

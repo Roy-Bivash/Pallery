@@ -10,12 +10,13 @@ import { toast } from "sonner";
 import { useEffect, useState } from "react";
 import { CustomFetch } from "@/lib/customFetch";
 import { NavUserType } from "@/@types/NavUser";
+import { formatImagesUrl } from "@/lib/imagesUrl";
 
 export function NavUser() {
     const { isMobile } = useSidebar()
     const navigate = useNavigate();
 
-    const [navUserInfos, setNavUserInfos] = useState<NavUserType>({ email: "", name: "", profile_picture: null });
+    const [navUserInfos, setNavUserInfos] = useState<NavUserType>({ email: "", name: "", profile_picture: "" });
 
     useEffect(() => {
         async function getNavUserInfos() {
@@ -49,7 +50,7 @@ export function NavUser() {
                             className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                         >
                             <Avatar className="h-8 w-8 rounded-lg">
-                                <AvatarImage src={navUserInfos.profile_picture || ""} alt={navUserInfos.name} />
+                                <AvatarImage src={formatImagesUrl(navUserInfos.profile_picture)} alt={navUserInfos.name} />
                                 <AvatarFallback className="rounded-lg">{navUserInfos.name.substring(0, 2).toUpperCase()}</AvatarFallback>
                             </Avatar>
                             <div className="grid flex-1 text-left text-sm leading-tight">
@@ -68,7 +69,7 @@ export function NavUser() {
                         <DropdownMenuLabel className="p-0 font-normal">
                             <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                                 <Avatar className="h-8 w-8 rounded-lg">
-                                    <AvatarImage src={navUserInfos.profile_picture || ""} alt={navUserInfos.name} />
+                                    <AvatarImage src={formatImagesUrl(navUserInfos.profile_picture)} alt={navUserInfos.name} />
                                     <AvatarFallback className="rounded-lg">{navUserInfos.name.substring(0, 2).toUpperCase()}</AvatarFallback>
                                 </Avatar>
                                 <div className="grid flex-1 text-left text-sm leading-tight">

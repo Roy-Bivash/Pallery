@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { useEffect, useState } from "react";
 import { UserType, TagType } from "@/@types/User";
 import { getMe } from "@/lib/current";
+import { formatImagesUrl } from "@/lib/imagesUrl";
 
 const TEST_DATA = {
     name: "Bivash ROY",
@@ -55,7 +56,7 @@ export function Account(){
         <div className="container mx-auto p-4">
             <div id="top" className="flex gap-8">
                 <Avatar className="h-24 w-24">
-                    <AvatarImage src="" />
+                    <AvatarImage src={formatImagesUrl(userData.profile_picture)} />
                     <AvatarFallback>{userData.name.substring(0, 2).toUpperCase()}</AvatarFallback>
                 </Avatar>
                 <div>

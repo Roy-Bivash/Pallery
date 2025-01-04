@@ -86,10 +86,7 @@ async function deleteImgFromFilesystem(url) {
 }
 
 router.post('/newProfilePicture', authenticateToken, upload.single('image'), async (req, res) => {
-
-    const { title } = req.body;
-
-    if (!title || !req.file) {
+    if (!req.file) {
         return res.status(400).json({
             success: false,
             message: "Missing required fields (title or image)"
@@ -111,7 +108,7 @@ router.post('/newProfilePicture', authenticateToken, upload.single('image'), asy
         }
 
         // Delete the old profile picture from the server
-        if(data[0].old_profile_picture != ""){
+        if(data[0].old_profile_picture){
             const { error: fsError } = await deleteImgFromFilesystem(data[0].old_profile_picture);
             if(fsError){
                 throw "Error: File deletion error";
