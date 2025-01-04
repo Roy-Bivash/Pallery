@@ -1,8 +1,10 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { toast } from "sonner";
+import { CustomFetch } from "@/lib/customFetch";
 
 interface PasswordForm {
     current: string,
@@ -12,17 +14,59 @@ interface PasswordForm {
 
 export function Security(){
     const [passwordForm, setPasswordForm] = useState<PasswordForm>({ current: "", new1: "", new2: "" });
-
+    const navigate = useNavigate();
 
     function updateFormValue(e: React.ChangeEvent<HTMLInputElement>) {
         e.preventDefault();
         setPasswordForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
     }
 
+    /**
+     * Verify if the password has at least 8 characters and 1 number in it
+     * @param STRING password 
+     * @returns boolean
+     */
+    function verifyPassword(password:string) {
+        const regex = /^(?=.*\d).{8,}$/;
+
+        return (regex.test(password));
+    }
+
     async function resetPasswordSubmit(e:React.FormEvent<HTMLFormElement>){
         e.preventDefault();
-        // TODO
-        console.log(passwordForm);
+
+        if(passwordForm.new1 != passwordForm.new2){
+            return toast("Error", {
+                description: "The 2 passwords does not match"
+            })
+        }
+        if(!verifyPassword(passwordForm.new1)){
+            return toast("Error", {
+                description: "The password has to be at least 8 characters and include 1 number"
+            })
+        }
+        
+        const { response, error } = await CustomFetch('/user/password', {
+            method: 'POST',
+            body: JSON.stringify({
+                oldPassword: passwordForm.current,
+                newPassword: passwordForm.new1
+            }),
+        });
+        if(error){
+            return toast("Error", {
+                description: "Internal server error"
+            })
+        }
+
+        if(!response?.success){
+            return toast("Error", {
+                description: response.message
+            })
+        }
+
+        // Password change is successfull
+        navigate('/account');
     }
 
     return(

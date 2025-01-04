@@ -2,6 +2,7 @@ import express from 'express';
 const router = express.Router();
 import supabaseConnection from '../database/supabaseClient.js';
 import { authenticateToken } from '../lib/auth.js';
+import { comparePassword, hashPassword } from '../lib/password.js';
 
 // Get the loged users infos
 router.get('/', authenticateToken, async (req, res) => {
@@ -124,6 +125,80 @@ router.post('/update', authenticateToken, async (req, res) => {
             }
         }
         
+    } catch (err) {
+        console.error("Database error:", err);
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+
+    res.json({
+        success: true,
+        message: "User info retrieved successfully",
+    });
+});
+
+/**
+ * Verify if the password has at least 8 characters and 1 number in it
+ * @param STRING password 
+ * @returns boolean
+ */
+function verifyPassword(password) {
+    const regex = /^(?=.*\d).{8,}$/;
+
+    return (regex.test(password));
+}
+
+router.post('/password', authenticateToken, async (req, res) => {
+    const { oldPassword, newPassword } = req.body;
+
+    // Verify if the parametters exists
+    if (!oldPassword || !newPassword) {
+        return res.status(400).json({
+            success: false,
+            message: "Missing required fields"
+        });
+    }
+
+    // Verify the new password validity
+    if(!verifyPassword(newPassword)){
+        return res.json({ 
+            success: false, 
+            message: "The password does not meet the requirements" 
+        });
+    }
+
+    try {
+        const { data:password, error:password_err } = await supabaseConnection
+            .from('user')
+            .select('password')
+            .eq('id', req.user.id);
+
+        if (password_err) {
+            throw password_err;
+        }
+        
+        // Verify the old password
+        const match = await comparePassword(oldPassword, password[0].password);
+        if(!match){
+            return res.json({ 
+                success: false, 
+                message: "Incorrect password" 
+            });
+        }
+
+        // change the password
+        const newPasswordHash = await hashPassword(newPassword);
+
+        const { error } = await supabaseConnection
+            .from('user')
+            .update({ 
+                password:newPasswordHash
+            })
+            .eq('id', req.user.id)
+            .select()
+        if (error) {
+            throw error;
+        }
+
     } catch (err) {
         console.error("Database error:", err);
         return res.status(500).json({ error: 'Internal server error' });
