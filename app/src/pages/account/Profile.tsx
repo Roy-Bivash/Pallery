@@ -13,25 +13,6 @@ import { getMe } from "@/lib/current";
 import { CustomFetch } from "@/lib/customFetch";
 import { formatImagesUrl } from "@/lib/imagesUrl";
 
-// const TEST_DATA = {
-//     name: "Bivash ROY",
-//     pseudo: "@bivash_roy",
-//     tags: [
-//         {
-//             id:1,
-//             name:"Creative"
-//         },
-//         {
-//             id:2,
-//             name:"Cartoon"
-//         },
-//         {
-//             id:3,
-//             name:"Video Game"
-//         }
-//     ],
-//     description: "User bio here : Lorem ipsum dolor sit, amet consectetur adipisicing elit. Placeat assumenda odio fugit iusto dicta omnis reprehenderit ab laudantium ex! Et animi possimus quaerat nam corporis minima harum assumenda laborum nobis?"
-// }
 
 export function Profile(){
     const [userData, setUserData] = useState<UserType>({ id: 0, email: "", name: "", pseudo: "", bio: "", profile_picture: "" });
@@ -39,7 +20,6 @@ export function Profile(){
     const [newUserTags, setNewUserTags] = useState<Array<TagType>>([]);
     const [newImageFile, setNewImageFile] = useState(null);
     const [imagePreview, setImagePreview] = useState<string | null>(null);
-    // const [profileForm, setProfileForm] = useState(TEST_DATA);
     const inputRef = useRef<HTMLInputElement>(null);
     const navigate = useNavigate();
 
