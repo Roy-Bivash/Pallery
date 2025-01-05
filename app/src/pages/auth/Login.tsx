@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { redirect, useNavigate } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 
 import { CustomFetch } from "@/lib/customFetch";
 import { verifyTextInput } from "@/lib/form";
@@ -99,7 +99,11 @@ export function Login() {
                                 />
                             </div>
                             <Button type="submit" className="w-full">Login</Button>
-                            <Button variant="outline" className="w-full">Sign In</Button>
+                            <Button variant="outline" className="w-full" asChild>
+                                <NavLink to='/signin'>
+                                    Sign In
+                                </NavLink>
+                            </Button>
                         </form>
                     </CardContent>
                 </Card>

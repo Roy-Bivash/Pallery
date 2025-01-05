@@ -92,5 +92,65 @@ router.post('/logout', (req, res) => {
     });
 });
 
+/**
+ * Verify if the password has at least 8 characters and 1 number in it
+ * @param STRING password 
+ * @returns boolean
+ */
+function verifyPassword(password) {
+    const regex = /^(?=.*\d).{8,}$/;
+
+    return (regex.test(password));
+}
+
+router.post('/signIn', async (req, res) => {
+    const { email, password, name } = req.body;
+
+    if (!email || !password || !name) {
+        return res.status(400).json({
+            error: 'Invalid input',
+            message: 'Missing parametters',
+        });
+    }
+
+    // Verify the new password validity
+    if(!verifyPassword(password)){
+        return res.json({ 
+            success: false, 
+            message: "The password does not meet the requirements" 
+        });
+    }
+
+    // Hash the password before inserting to the database :
+    const passwordHash = await hashPassword(password);
+
+    // Create the default pseudo :
+    const pseudo = `@${name.replace(/[ ,!?@]/g, '_')}`;
+
+    try{
+        const { error } = await supabaseConnection
+            .from('user')
+            .insert([
+                { 
+                    email,
+                    password: passwordHash,
+                    name,
+                    pseudo
+                },
+            ]);
+        if (error) {
+            throw error;
+        }
+    } catch (err) {
+        console.error('Error fetching data from Supabase:', err.message);
+        res.status(500).json({ error: 'Failed to fetch data from Supabase' });
+    }
+
+    return res.json({
+        success: true,
+        message: "Account created"
+    });
+});
+
 
 export default router;

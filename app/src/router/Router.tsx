@@ -3,7 +3,8 @@ import { BrowserRouter, Routes, Route } from "react-router";
 import SidebarLayout from "@/components/layouts/Sidebar-layout";
 
 import { Home } from "@/pages/home/Home";
-import { Login } from "@/pages/login/Login";
+import { Login } from "@/pages/auth/Login";
+import { SignIn } from "@/pages/auth/SignIn";
 import { Account } from "@/pages/account/Account";
 import { Profile } from "@/pages/account/Profile";
 import { Security } from "@/pages/account/Security";
@@ -27,6 +28,7 @@ export function Router(){
                     </Route>
                 </Route>
                 <Route path="/login" element={<Login />} />
+                <Route path="/signin" element={<SignIn />} />
                 <Route path="/*" element={<Error404 />} />
             </Routes>
         </BrowserRouter>
