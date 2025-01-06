@@ -2,7 +2,6 @@ import { DarkModeSwitch } from "../darkModeSwitch/DarkModeSwitch";
 // import { Search } from "lucide-react"
 // import { Label } from "@/components/ui/label"
 // import { Input } from "../ui/input";
-import { useState } from "react";
 
 
 export function SidebarNav(){

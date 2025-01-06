@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Hexagon, SearchX } from "lucide-react";
+import { SearchX } from "lucide-react";
 import { NavLink } from "react-router";
 
 export function Error404(){

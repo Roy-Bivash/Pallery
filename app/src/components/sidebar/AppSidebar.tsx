@@ -1,4 +1,4 @@
-import { Calendar, Home, Star, Folder, ImageUp } from "lucide-react"
+import { Home, Star, ImageUp } from "lucide-react"
 import { NavUser } from "./NavUser";
 import { NavLink } from "react-router";
 
