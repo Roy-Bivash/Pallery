@@ -20,6 +20,6 @@ app.use(express.urlencoded({ limit: '10mb', extended: true }));
 // Attach your routes here
 app.use('/', router);
 
-app.listen(config.PORT, () => {
+app.listen(config.PORT, '0.0.0.0', () => {
     console.log(`Backend app listening on port ${config.PORT}`);
 });
