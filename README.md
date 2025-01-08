@@ -121,3 +121,11 @@ Users can:
     ```
     
 3. Open your browser at [http://localhost:5173](http://localhost:5173).
+
+---
+
+### **6. Additional informations**
+
+Frontend :  [app.md](./docs/app.md)
+Server : [server.md](./docs/server.md)
+Database : [database.md](./docs/database.md)
