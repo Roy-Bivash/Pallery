@@ -1,4 +1,12 @@
-## **Pallery Documentation**
+<div align="center">
+  <a href="https://ollama.com" />
+    <img alt="ollama" height="200px" src="./docs/logo.png">
+  </a>
+</div>
+
+## **Pallery**
+
+### "Your Personal Image Hosting!"
 
 ### **1. Overview**
 
@@ -31,8 +39,8 @@ Users can:
 
 ### **3. Prerequisites**
 
-- **Node.js**: Install the latest LTS version.
-- **Supabase Account**: Create a Supabase project for database hosting.
+- **Node.js**: [Install the latest LTS version.](https://nodejs.org/en)
+- **Supabase Account**: [Create a Supabase project for database hosting.](https://supabase.com/)
 
 ---
 
@@ -46,18 +54,18 @@ Users can:
     cd server
     ```
     
-2. Create a `.env` file based on the `exemple.env` provided:
+2. Create a `.env` file based on the `example.env` provided:
     
     ```plaintext
     NODE_ENV=development # development or production
     
-    SUPABASE_URL=<https://your-supabase-url.supabase.co>
-    SUPABASE_SERVICE_ROLE_KEY=<your-supabase-service-role-key>
+    SUPABASE_URL=https://your-project.supabase.co
+    SUPABASE_SERVICE_ROLE_KEY=some-secret-key
     
     PORT=5000
     CLIENT_URL=http://localhost:5173
     
-    JWT_SECRET=<your-jwt-secret-key> # Please use at least 32 characters
+    JWT_SECRET=your-super-long-jwt-secret # Please use at least 32 characters
     ```
     
 3. Install dependencies and run the server:
@@ -131,3 +139,13 @@ Frontend :  [app.md](./docs/app.md)
 Server : [server.md](./docs/server.md)
 
 Database : [database.md](./docs/database.md)
+
+---
+
+### 7. Contributing
+We welcome contributions! Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
+
+---
+
+### 8. License
+This project is licensed under the [MIT License](./LICENSE).
