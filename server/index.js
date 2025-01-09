@@ -17,7 +17,6 @@ app.use(cors({
 
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
-// Attach your routes here
 app.use('/', router);
 
 app.listen(config.PORT, '0.0.0.0', () => {
