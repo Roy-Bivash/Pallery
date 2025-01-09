@@ -1,12 +1,14 @@
 <div align="center">
-  <a href="https://ollama.com" />
-    <img alt="ollama" height="200px" src="./docs/logo.png">
-  </a>
+    <img alt="ollama" src="./docs/home.png">
 </div>
 
-## **Pallery**
+# **Pallery**
 
-### "Your Personal Image Hosting!"
+**Your Personal Image Hosting!**
+
+<div align="center">
+    <img alt="ollama" height="150px" src="./docs/logo.png">
+</div>
 
 ### **1. Overview**
 
