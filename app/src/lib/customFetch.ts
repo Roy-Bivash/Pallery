@@ -1,7 +1,6 @@
 import { config } from "@/config/config";
 /**
  * CustomFetch is a function that makes a fetch request to a specified URL with given options.
- * It automatically includes an Authorization header if a token is present in localStorage.
  * It also includes the 'Content-Type' header set to 'application/json' and sends credentials with the request.
  *
  * @param {string} url - The URL to which the fetch request is made. This URL is appended to the SERVER_URL from the config.
@@ -20,7 +19,6 @@ export async function CustomFetch(url:string, options:any = {}) {
             credentials: 'include',
         });
 
-        // Assuming JSON response, but you can enhance this for different responses
         responseJson = await response.json();
     } catch (err) {
         error = { message: (err as Error).message, status: (err as any).status || 'unknown' };
