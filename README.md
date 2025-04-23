@@ -142,12 +142,8 @@ Server : [server.md](./docs/server.md)
 
 Database : [database.md](./docs/database.md)
 
----
-
-### 7. Contributing
-We welcome contributions! Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 
 ---
 
-### 8. License
+### 7. License
 This project is licensed under the [MIT License](./LICENSE).
