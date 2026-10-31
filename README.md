@@ -1,5 +1,5 @@
 <div align="center">
-    <img alt="ollama" src="./docs/home.png">
+    <img src="./docs/home.png">
 </div>
 
 # **Pallery**
